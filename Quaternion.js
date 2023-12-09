@@ -60,6 +60,21 @@ class Quaternion {
     }
 
     /**
+     * @description Set x, y, z and w components of an existing Quaternion.
+     * @param {number} x 0th element of the quaternion 
+     * @param {number} y 1st element of the quaternion 
+     * @param {number} z 2nd element of the quaternion 
+     * @param {number} w 3rd element of the quaternion
+     * @returns {void}
+     */
+    Set(x, y, z, w) {
+        this.x = x
+        this.y = y
+        this.z = z
+        this.w = w
+    }
+
+    /**
      * @description Returns product of two quaternions. 
      * Meaning that the rotation of q0 is applied first, then q1.
      * @param {Quaternion} q0 Quaternion to be applied first
