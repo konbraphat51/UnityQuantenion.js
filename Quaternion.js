@@ -225,6 +225,28 @@ class Quaternion {
     }
 
     /**
+     * @description Interpolates between a and b by t and normalizes the result afterwards. The parameter t is clamped to the range [0, 1].
+     * @param {Quaternion} a quaternion starts from
+     * @param {Quaternion} b quaternion ends at
+     * @param {number} t interpolation factor
+     * @returns {Quaternion} Interpolated quaternion
+     */
+    static Lerp(a, b, t) {
+        let [angleFrom, axisFrom] = a.ToAngleAxis()
+        let [angleTo, axisTo] = b.ToAngleAxis()
+
+        let axisInterpolated = [
+            axisFrom[0] * (1 - t) + axisTo[0] * t,
+            axisFrom[1] * (1 - t) + axisTo[1] * t,
+            axisFrom[2] * (1 - t) + axisTo[2] * t
+        ]
+
+        let angleInterpolated = angleFrom * (1 - t) + angleTo * t
+
+        return Quaternion.AngleAxis(angleInterpolated, axisInterpolated)
+    }
+
+    /**
      * @description Returns the Inverse of rotation.
      * @param {Quaternion} rotation rotation to be inverted
      * @returns {Quaternion} Inverse of rotation
