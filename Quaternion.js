@@ -172,6 +172,18 @@ class Quaternion {
         return new Quaternion(x, y, z, w)
     }
 
+    /**
+     * @description Returns the dot product between two rotations a and b.
+     * @param {Quaternion} a  quaternion
+     * @param {Quaternion} b quaternion
+     * @returns {number} dot product
+     */
+    static Dot(a, b) {
+        return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
+    }
+
+
+
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
