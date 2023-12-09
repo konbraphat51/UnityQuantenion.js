@@ -43,9 +43,9 @@ class Quaternion {
         }
 
         //to degrees
-        pitch = this.#ConvertToDegrees(pitch)
-        row = this.#ConvertToDegrees(row)
-        yaw = this.#ConvertToDegrees(yaw)
+        pitch = Quaternion.#ConvertToDegrees(pitch)
+        row = Quaternion.#ConvertToDegrees(row)
+        yaw = Quaternion.#ConvertToDegrees(yaw)
 
         return [row, pitch, yaw]
     }
@@ -84,26 +84,27 @@ class Quaternion {
 
     /**
      * @description Converts a rotation to angle-axis representation (angles in degrees).
-     * @see https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%8B%E3%82%89%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3
      * @returns { [number, number[]] } [Angle, Axis] in degrees
      */
     ToAngleAxis() {
+        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%8B%E3%82%89%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3
+
         let angle = 2 * Math.acos(this.w)
 
         let sin_half = Math.sin(angle / 2)
         let axis = [this.x / sin_half, this.y / sin_half, this.z / sin_half]
 
         //to degrees
-        angle = this.#ConvertToDegrees(angle)
+        angle = Quaternion.#ConvertToDegrees(angle)
 
         return [angle, axis]
     }
 
     /**
      * @description Returns a nicely formatted string of the Quaternion. Defaults to five digits displayed
-     * @see https://docs.unity3d.com/ScriptReference/Quaternion.ToString.html
      * @param {number} [digits=5] Number of digits to display
-     */
+     * @returns {string} Formatted string "(x, y, z, w)"
+    */
     ToString(digits = 5) {
         return `(${this.x.toFixed(digits)}, ${this.y.toFixed(digits)}, ${this.z.toFixed(digits)}, ${this.w.toFixed(digits)})`
     }
@@ -113,10 +114,10 @@ class Quaternion {
      * Meaning that the rotation of q0 is applied first, then q1.
      * @param {Quaternion} q0 Quaternion to be applied first
      * @param {Quaternion} q1 Quaternion to be applied second
-     * @see https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
      * @returns 
      */
     static Multiply(q0, q1) {
+        //based on https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
         return new Quaternion(
             q0.x * q1.x - q0.y * q1.y - q0.z * q1.z - q0.w * q1.w,
             q0.y * q1.x + q0.x * q1.y - q0.w * q1.z + q0.z * q1.w,
@@ -125,15 +126,41 @@ class Quaternion {
         )
     }
 
+    /**
+     * @description Returns the angle in degrees between two rotations a and b.
+     * @param {Quaternion} a quanternion
+     * @param {Quaternion} b quanternion
+     * @see https://docs.unity3d.com/ScriptReference/Quaternion.Angle.html
+     */
+    static Angle(a, b) {
+        //get both axises
+        let temp = a.ToAngleAxis()
+        let axis_a = temp[1]
+        temp = b.ToAngleAxis()
+        let axis_b = temp[1]
+
+        //normalize both axises
+        const norm_a = Math.sqrt(axis_a[0] * axis_a[0] + axis_a[1] * axis_a[1] + axis_a[2] * axis_a[2])
+        axis_a = [axis_a[0] / norm_a, axis_a[1] / norm_a, axis_a[2] / norm_a]
+        const norm_b = Math.sqrt(axis_b[0] * axis_b[0] + axis_b[1] * axis_b[1] + axis_b[2] * axis_b[2])
+        axis_b = [axis_b[0] / norm_b, axis_b[1] / norm_b, axis_b[2] / norm_b]
+
+        //calculate angle between 2 axis vectors
+        let angle = Math.acos(axis_a[0] * axis_b[0] + axis_a[1] * axis_b[1] + axis_a[2] * axis_b[2])
+        angle = Quaternion.#ConvertToDegrees(angle)
+
+        return angle
+    }
+
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
 
-    #IsZero(x) {
+    static #IsZero(x) {
         return this.norm < 0.00001
     }
 
-    #ConvertToDegrees(rad) {
+    static #ConvertToDegrees(rad) {
         return rad * 180 / Math.PI
     }
 }
