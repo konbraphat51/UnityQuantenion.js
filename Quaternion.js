@@ -6,7 +6,10 @@
 
 /**
  * @constructor Make a new Quaternion instance
- * @classdesc Quaternion class, immitating UnityEngine.Quaternion. this = `x`i + `y`j + `z`k + `w`(real)
+ * @classdesc Quaternion class, immitating UnityEngine.Quaternion.  
+ * this = `x`i + `y`j + `z`k + `w`(real)  
+ * The coordinate system is based on Unity's left-handed coordinate + left-hand thread rotation system.
+ * @see Coordinate_System: https://www.google.com/url?sa=i&url=https%3A%2F%2Fblog.dsky.co%2Ftag%2Fxyzypr%2F&psig=AOvVaw0OgXth3KMz8bCrb6yFlMde&ust=1702207835957000&source=images&cd=vfe&opi=89978449&ved=0CBEQjRxqFwoTCLDrv8WggoMDFQAAAAAdAAAAABAR
  * @param {number} x 0th element of the quaternion. Don't set this value.
  * @param {number} y 1st element of the quaternion. Don't set this value.
  * @param {number} z 2nd element of the quaternion. Don't set this value.
@@ -29,28 +32,28 @@ class Quaternion {
      * @description Returns or sets the euler angle representation of the rotation in degrees.
      *  The order is Z-rotaion -> X-rotation -> Y-rotation.
      * @see https://docs.unity3d.com/2023.2/Documentation/ScriptReference/Quaternion-eulerAngles.html
-     * @returns {number[]} [Roll, Pitch, Yaw] in degrees
+     * @returns {number[]} [x, y, z] in degrees
      */
     get eulerAngles() {
         //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-3
 
-        let roll = Math.asin(2 * (this.y * this.z + this.x * this.w))
+        let x = Math.asin(2 * (this.y * this.z + this.x * this.w))
 
-        let pitch, yaw
-        if (Math.abs(Math.cos(roll)) < 0.00001) {
-            pitch = 0
-            yaw = Math.atan((2 * this.x * this.y + 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
+        let y, z
+        if (Math.abs(Math.cos(x)) < 0.00001) {
+            y = 0
+            z = Math.atan((2 * this.x * this.y + 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
         } else {
-            pitch = Math.atan(- (2 * this.x * this.z - 2 * this.y * this.w) / (2 * this.w * this.w + 2 * this.z * this.z - 1))
-            yaw = Math.atan(-(2 * this.x * this.y - 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
+            y = Math.atan(- (2 * this.x * this.z - 2 * this.y * this.w) / (2 * this.w * this.w + 2 * this.z * this.z - 1))
+            z = Math.atan(-(2 * this.x * this.y - 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
         }
 
         //to degrees
-        pitch = Quaternion.#ConvertToDegrees(pitch)
-        row = Quaternion.#ConvertToDegrees(row)
-        yaw = Quaternion.#ConvertToDegrees(yaw)
+        x = Quaternion.#ConvertToDegrees(x)
+        y = Quaternion.#ConvertToDegrees(y)
+        z = Quaternion.#ConvertToDegrees(z)
 
-        return [row, pitch, yaw]
+        return [x, y, z]
     }
 
     /**
@@ -187,20 +190,20 @@ class Quaternion {
 
     /**
      * @description Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis; applied in that order.
-     * @param {number} row rotation in degrees around x axis 
-     * @param {number} pitch rotation in degrees around y axis
-     * @param {number} yaw rotaion in degrees around z axis
+     * @param {number} x rotation in degrees around x axis 
+     * @param {number} y rotation in degrees around y axis
+     * @param {number} z rotaion in degrees around z axis
      * @return {Quaternion} Quaternion made
      */
-    static Euler(row, pitch, yaw) {
+    static Euler(x, y, z) {
         //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-2
 
-        const sx = Math.sin(Quaternion.#ConvertToRad(row) / 2)
-        const cx = Math.cos(Quaternion.#ConvertToRad(row) / 2)
-        const sy = Math.sin(Quaternion.#ConvertToRad(pitch) / 2)
-        const cy = Math.cos(Quaternion.#ConvertToRad(pitch) / 2)
-        const sz = Math.sin(Quaternion.#ConvertToRad(yaw) / 2)
-        const cz = Math.cos(Quaternion.#ConvertToRad(yaw) / 2)
+        const sx = Math.sin(Quaternion.#ConvertToRad(x) / 2)
+        const cx = Math.cos(Quaternion.#ConvertToRad(x) / 2)
+        const sy = Math.sin(Quaternion.#ConvertToRad(y) / 2)
+        const cy = Math.cos(Quaternion.#ConvertToRad(y) / 2)
+        const sz = Math.sin(Quaternion.#ConvertToRad(z) / 2)
+        const cz = Math.cos(Quaternion.#ConvertToRad(z) / 2)
 
         const x = - cx * sy * sz + sx * cy * cz
         const y = cx * sy * cz + sx * cy * sz
