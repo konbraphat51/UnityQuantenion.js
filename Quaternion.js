@@ -6,7 +6,7 @@
 
 /**
  * @constructor Make a new Quaternion instance
- * @classdesc Quaternion class, immitating UnityEngine.Quaternion
+ * @classdesc Quaternion class, immitating UnityEngine.Quaternion. this = `x`i + `y`j + `z`k + `w`(real)
  * @param {number} x 0th element of the quaternion. Don't set this value.
  * @param {number} y 1st element of the quaternion. Don't set this value.
  * @param {number} z 2nd element of the quaternion. Don't set this value.
@@ -14,6 +14,9 @@
  * @see https://docs.unity3d.com/ja/2023.2/ScriptReference/Quaternion.html
  */
 class Quaternion {
+    //Calculations based on:
+    //https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
+
     //description above
     constructor(x, y, z, w) {
         this.x = x
@@ -205,6 +208,29 @@ class Quaternion {
         const w = -sx * sy * sz + cx * cy * cz
 
         return new Quaternion(x, y, z, w)
+    }
+
+    /**
+     * @description Creates a rotation which rotates from fromDirection to toDirection.
+     * @param {number[]} fromDirection direction vector that rotation starts from 
+     * @param {number[]} toDirection direction vector that rotation ends at
+     * @returns {Quaternion} Quaternion made
+     */
+    static FromToRotation(fromDirection, toDirection) {
+        //quaternion of both directions
+        let qFrom = Quaternion.AngleAxis(0, fromDirection)
+        let qTo = Quaternion.AngleAxis(0, toDirection)
+
+        return Quaternion.Multiply(Quaternion.Inverse(qFrom), qTo)
+    }
+
+    /**
+     * @description Returns the Inverse of rotation.
+     * @param {Quaternion} rotation rotation to be inverted
+     * @returns {Quaternion} Inverse of rotation
+     */
+    static Inverse(rotation) {
+        return new Quaternion(-rotation.x, -rotation.y, -rotation.z, rotation.w)
     }
 
     get #norm() {
