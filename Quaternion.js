@@ -82,7 +82,22 @@ class Quaternion {
         //TODO
     }
 
+    /**
+     * @description Converts a rotation to angle-axis representation (angles in degrees).
+     * @see https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%8B%E3%82%89%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3
+     * @returns { [number, number[]] } [Angle, Axis] in degrees
+     */
+    ToAngleAxis() {
+        let angle = 2 * Math.acos(this.w)
 
+        let sin_half = Math.sin(angle / 2)
+        let axis = [this.x / sin_half, this.y / sin_half, this.z / sin_half]
+
+        //to degrees
+        angle = this.#ConvertToDegrees(angle)
+
+        return [angle, axis]
+    }
 
     /**
      * @description Returns product of two quaternions. 
