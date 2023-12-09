@@ -228,10 +228,24 @@ class Quaternion {
      * @description Interpolates between a and b by t and normalizes the result afterwards. The parameter t is clamped to the range [0, 1].
      * @param {Quaternion} a quaternion starts from
      * @param {Quaternion} b quaternion ends at
-     * @param {number} t interpolation factor
+     * @param {number} t interpolation factor. This will limited between 0 and 1.
      * @returns {Quaternion} Interpolated quaternion
      */
     static Lerp(a, b, t) {
+        if (t < 0) t = 0
+        if (t > 1) t = 1
+
+        return Quaternion.LerpUnclamped(a, b, t)
+    }
+
+    /**
+     * @description Interpolates between a and b by t and normalizes the result afterwards. The parameter t is not clamped.
+     * @param {Quaternion} a quaternion starts from
+     * @param {Quaternion} b quaternion ends at
+     * @param {number} t interpolation factor
+     * @returns {Quaternion} Interpolated quaternion
+     */
+    static LerpUnclamped(a, b, t) {
         let [angleFrom, axisFrom] = a.ToAngleAxis()
         let [angleTo, axisTo] = b.ToAngleAxis()
 
@@ -243,7 +257,7 @@ class Quaternion {
 
         let angleInterpolated = angleFrom * (1 - t) + angleTo * t
 
-        return Quaternion.AngleAxis(angleInterpolated, axisInterpolated)
+        return Quaternion.AngleAxis(angleInterpolated, axisInterpolated).normalized
     }
 
     /**
