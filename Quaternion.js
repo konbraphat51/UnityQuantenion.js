@@ -51,6 +51,15 @@ class Quaternion {
     }
 
     /**
+     * @description Returns the norm=1 quaternion that represents the same rotation.
+     * @returns {Quaternion} Normalized quaternion
+     */
+    get normalized() {
+        const norm = this.#norm
+        return new Quaternion(this.x / norm, this.y / norm, this.z / norm, this.w / norm)
+    }
+
+    /**
      * @description Returns product of two quaternions. 
      * Meaning that the rotation of q0 is applied first, then q1.
      * @param {Quaternion} q0 Quaternion to be applied first
