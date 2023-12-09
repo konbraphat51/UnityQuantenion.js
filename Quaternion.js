@@ -122,10 +122,10 @@ class Quaternion {
     static Multiply(q0, q1) {
         //based on https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
         return new Quaternion(
-            q0.x * q1.x - q0.y * q1.y - q0.z * q1.z - q0.w * q1.w,
-            q0.y * q1.x + q0.x * q1.y - q0.w * q1.z + q0.z * q1.w,
-            q0.z * q1.x + q0.w * q1.y + q0.x * q1.z - q0.y * q1.w,
-            q0.w * q1.x - q0.z * q1.y + q0.y * q1.z + q0.x * q1.w
+            q0.x * q1.w + q0.w * q1.x - q0.z * q1.y + q0.y * q1.z,
+            q0.y * q1.w + q0.z * q1.x + q0.w * q1.y - q0.x * q1.z,
+            q0.z * q1.w - q0.y * q1.x + q0.x * q1.y + q0.w * q1.z,
+            q0.w * q1.w - q0.x * q1.x - q0.y * q1.y - q0.z * q1.z
         )
     }
 
@@ -193,7 +193,7 @@ class Quaternion {
      * @return {Quaternion} Quaternion made
      */
     static Euler(row, pitch, yaw) {
-        //based on Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis; applied in that order.
+        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-2
 
         const sx = Math.sin(Quaternion.#ConvertToRad(row) / 2)
         const cx = Math.cos(Quaternion.#ConvertToRad(row) / 2)
