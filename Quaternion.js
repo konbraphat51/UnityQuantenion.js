@@ -100,6 +100,15 @@ class Quaternion {
     }
 
     /**
+     * @description Returns a nicely formatted string of the Quaternion. Defaults to five digits displayed
+     * @see https://docs.unity3d.com/ScriptReference/Quaternion.ToString.html
+     * @param {number} [digits=5] Number of digits to display
+     */
+    ToString(digits = 5) {
+        return `(${this.x.toFixed(digits)}, ${this.y.toFixed(digits)}, ${this.z.toFixed(digits)}, ${this.w.toFixed(digits)})`
+    }
+
+    /**
      * @description Returns product of two quaternions. 
      * Meaning that the rotation of q0 is applied first, then q1.
      * @param {Quaternion} q0 Quaternion to be applied first
