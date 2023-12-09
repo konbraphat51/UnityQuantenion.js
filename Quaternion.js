@@ -24,11 +24,30 @@ class Quaternion {
 
     /**
      * @description Returns or sets the euler angle representation of the rotation in degrees.
+     *  The order is Z-rotaion -> Y-rotation -> X-rotation.
      * @see https://docs.unity3d.com/2023.2/Documentation/ScriptReference/Quaternion-eulerAngles.html
      * @returns {number[]} [Roll, Pitch, Yaw] in degrees
      */
     get eulerAngles() {
+        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zyx-3
 
+        let pitch = Math.asin(-2 * (this.x * this.z - this.y * this.w))
+
+        let row, yaw
+        if (Math.cos(this.y) == 0) {
+            row = 0
+            yaw = Math.atan(- 2 * (this.x * this.y - this.z * this.w) / (2 * (this.w * this.w + this.y * this.y) - 1))
+        } else {
+            row = Math.atan(2 * (this.y * this.z + this.x * this.w) / (2 * (this.w * this.w + this.z * this.z) - 1))
+            yaw = Math.atan(2 * (this.y * this.x + this.z * this.w) / (2 * (this.w * this.w + this.x * this.x) - 1))
+        }
+
+        //to degrees
+        pitch = this.#ConvertToDegrees(pitch)
+        row = this.#ConvertToDegrees(row)
+        yaw = this.#ConvertToDegrees(yaw)
+
+        return [row, pitch, yaw]
     }
 
     /**
@@ -48,11 +67,15 @@ class Quaternion {
         )
     }
 
-    get _norm() {
+    get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
 
-    _IsZero(x) {
+    #IsZero(x) {
         return this.norm < 0.00001
+    }
+
+    #ConvertToDegrees(rad) {
+        return rad * 180 / Math.PI
     }
 }
