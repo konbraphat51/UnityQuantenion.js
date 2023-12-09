@@ -152,6 +152,26 @@ class Quaternion {
         return angle
     }
 
+    /**
+     * @description Creates a rotation which rotates angle degrees around axis.
+     * @param {number} angle rotation in degrees rotated in axis
+     * @param {number[]} axis axis vector
+     * @returns {Quaternion} Quaternion made
+     */
+    static AngleAxis(angle, axis) {
+        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3%E3%81%8B%E3%82%89%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%B8
+        const rad = Quaternion.#ConvertToRad(angle)
+        const sin_half = Math.sin(rad / 2)
+        const cos_half = Math.cos(rad / 2)
+
+        const x = axis[0] * sin_half
+        const y = axis[1] * sin_half
+        const z = axis[2] * sin_half
+        const w = cos_half
+
+        return new Quaternion(x, y, z, w)
+    }
+
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
@@ -162,6 +182,10 @@ class Quaternion {
 
     static #ConvertToDegrees(rad) {
         return rad * 180 / Math.PI
+    }
+
+    static #ConvertToRad(deg) {
+        return deg * Math.PI / 180
     }
 }
 
