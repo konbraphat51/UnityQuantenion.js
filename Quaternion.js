@@ -182,7 +182,30 @@ class Quaternion {
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w
     }
 
+    /**
+     * @description Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis; applied in that order.
+     * @param {number} row rotation in degrees around x axis 
+     * @param {number} pitch rotation in degrees around y axis
+     * @param {number} yaw rotaion in degrees around z axis
+     * @return {Quaternion} Quaternion made
+     */
+    static Euler(row, pitch, yaw) {
+        //based on Returns a rotation that rotates z degrees around the z axis, x degrees around the x axis, and y degrees around the y axis; applied in that order.
 
+        const sx = Math.sin(Quaternion.#ConvertToRad(row) / 2)
+        const cx = Math.cos(Quaternion.#ConvertToRad(row) / 2)
+        const sy = Math.sin(Quaternion.#ConvertToRad(pitch) / 2)
+        const cy = Math.cos(Quaternion.#ConvertToRad(pitch) / 2)
+        const sz = Math.sin(Quaternion.#ConvertToRad(yaw) / 2)
+        const cz = Math.cos(Quaternion.#ConvertToRad(yaw) / 2)
+
+        const x = - cx * sy * sz + sx * cy * cz
+        const y = cx * sy * cz + sx * cy * sz
+        const z = sx * sy * cz + cx * cy * sz
+        const w = -sx * sy * sz + cx * cy * cz
+
+        return new Quaternion(x, y, z, w)
+    }
 
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
