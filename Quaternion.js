@@ -32,18 +32,19 @@ class Quaternion {
     }
 
     /**
-     * @description Returns Hamilton product of two quaternions. 
+     * @description Returns product of two quaternions. 
      * Meaning that the rotation of q0 is applied first, then q1.
      * @param {Quaternion} q0 Quaternion to be applied first
      * @param {Quaternion} q1 Quaternion to be applied second
+     * @see https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
      * @returns 
      */
     static Multiply(q0, q1) {
         return new Quaternion(
-            q0.w * q1.x + q0.x * q1.w + q0.y * q1.z - q0.z * q1.y,
-            q0.w * q1.y - q0.x * q1.z + q0.y * q1.w + q0.z * q1.x,
-            q0.w * q1.z + q0.x * q1.y - q0.y * q1.x + q0.z * q1.w,
-            q0.w * q1.w - q0.x * q1.x - q0.y * q1.y - q0.z * q1.z
+            q0.x * q1.x - q0.y * q1.y - q0.z * q1.z - q0.w * q1.w,
+            q0.y * q1.x + q0.x * q1.y - q0.w * q1.z + q0.z * q1.w,
+            q0.z * q1.x + q0.w * q1.y + q0.x * q1.z - q0.y * q1.w,
+            q0.w * q1.x - q0.z * q1.y + q0.y * q1.z + q0.x * q1.w
         )
     }
 
