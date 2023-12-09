@@ -95,10 +95,12 @@ class Quaternion {
     ToAngleAxis() {
         //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%8B%E3%82%89%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3
 
-        let angle = 2 * Math.acos(this.w)
+        const normalized = this.normalized
 
-        let sin_half = Math.sin(angle / 2)
-        let axis = [this.x / sin_half, this.y / sin_half, this.z / sin_half]
+        let angle = 2 * Math.acos(normalized)
+
+        const sin_half = Math.sin(angle / 2)
+        const axis = [normalized.x / sin_half, normalized.y / sin_half, normalized.z / sin_half]
 
         //to degrees
         angle = Quaternion.#ConvertToDegrees(angle)
@@ -258,22 +260,17 @@ class Quaternion {
      * @returns {Quaternion} Interpolated quaternion
      */
     static LerpUnclamped(a, b, t) {
-        let [angleFrom, axisFrom] = a.ToAngleAxis()
-        let [angleTo, axisTo] = b.ToAngleAxis()
+        let x = a.x * (1 - t) + b.x * t
+        let y = a.y * (1 - t) + b.y * t
+        let z = a.z * (1 - t) + b.z * t
+        let w = a.w * (1 - t) + b.w * t
 
-        let axisInterpolated = [
-            axisFrom[0] * (1 - t) + axisTo[0] * t,
-            axisFrom[1] * (1 - t) + axisTo[1] * t,
-            axisFrom[2] * (1 - t) + axisTo[2] * t
-        ]
-
-        let angleInterpolated = angleFrom * (1 - t) + angleTo * t
-
-        return Quaternion.AngleAxis(angleInterpolated, axisInterpolated).normalized
+        return Quaternion(x, y, z, w).normalized
     }
 
     /**
-     * @description Creates a rotation with the specified forward and upwards directions.
+     * @description Creates a rotation with the specified forward and upwards directions.  
+     * Z: forward, Y: upwards
      * @see https://docs.unity3d.com/2019.4/Documentation/ScriptReference/Quaternion.LookRotation.html
      * @param {number[]} forward direction vector looking at
      * @param {number[]} upwards direction vector upwards from `forward`. Default is [0, 1, 0]
