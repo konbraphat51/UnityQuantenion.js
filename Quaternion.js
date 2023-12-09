@@ -225,6 +225,15 @@ class Quaternion {
     }
 
     /**
+     * @description Returns the Inverse of rotation.
+     * @param {Quaternion} rotation rotation to be inverted
+     * @returns {Quaternion} Inverse of rotation
+     */
+    static Inverse(rotation) {
+        return new Quaternion(-rotation.x, -rotation.y, -rotation.z, rotation.w)
+    }
+
+    /**
      * @description Interpolates between a and b by t and normalizes the result afterwards. The parameter t is clamped to the range [0, 1].
      * @param {Quaternion} a quaternion starts from
      * @param {Quaternion} b quaternion ends at
@@ -261,12 +270,14 @@ class Quaternion {
     }
 
     /**
-     * @description Returns the Inverse of rotation.
-     * @param {Quaternion} rotation rotation to be inverted
-     * @returns {Quaternion} Inverse of rotation
+     * @description Creates a rotation with the specified forward and upwards directions.
+     * @see https://docs.unity3d.com/2019.4/Documentation/ScriptReference/Quaternion.LookRotation.html
+     * @param {number[]} forward direction vector looking at
+     * @param {number[]} upwards direction vector upwards from `forward`. Default is [0, 1, 0]
+     * @returns {Quaternion} Quaternion made
      */
-    static Inverse(rotation) {
-        return new Quaternion(-rotation.x, -rotation.y, -rotation.z, rotation.w)
+    static LookRotation(forward, upwards = [0, 1, 0]) {
+
     }
 
     get #norm() {
