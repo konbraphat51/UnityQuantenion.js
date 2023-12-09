@@ -159,7 +159,7 @@ class Quaternion {
      * @returns {Quaternion} Quaternion made
      */
     static AngleAxis(angle, axis) {
-        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3%E3%81%8B%E3%82%89%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%B8
+        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E3%82%AA%E3%82%A4%E3%83%A9%E3%83%BC%E8%A7%92%E3%81%8B%E3%82%89%E3%82%AF%E3%82%A9%E3%83%BC%E3%82%BF%E3%83%8B%E3%82%AA%E3%83%B3
         const rad = Quaternion.#ConvertToRad(angle)
         const sin_half = Math.sin(rad / 2)
         const cos_half = Math.cos(rad / 2)
