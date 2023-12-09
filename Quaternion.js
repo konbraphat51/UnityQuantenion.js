@@ -74,6 +74,16 @@ class Quaternion {
         this.w = w
     }
 
+    SetFromToRotation(fromDirection, toDirection) {
+        //TODO
+    }
+
+    SetLookRotation(view, up) {
+        //TODO
+    }
+
+
+
     /**
      * @description Returns product of two quaternions. 
      * Meaning that the rotation of q0 is applied first, then q1.
