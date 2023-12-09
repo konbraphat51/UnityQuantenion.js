@@ -24,22 +24,22 @@ class Quaternion {
 
     /**
      * @description Returns or sets the euler angle representation of the rotation in degrees.
-     *  The order is Z-rotaion -> Y-rotation -> X-rotation.
+     *  The order is Z-rotaion -> X-rotation -> Y-rotation.
      * @see https://docs.unity3d.com/2023.2/Documentation/ScriptReference/Quaternion-eulerAngles.html
      * @returns {number[]} [Roll, Pitch, Yaw] in degrees
      */
     get eulerAngles() {
-        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zyx-3
+        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-3
 
-        let pitch = Math.asin(-2 * (this.x * this.z - this.y * this.w))
+        let roll = Math.asin(2 * (this.y * this.z + this.x * this.w))
 
-        let row, yaw
-        if (Math.cos(this.y) == 0) {
-            row = 0
-            yaw = Math.atan(- 2 * (this.x * this.y - this.z * this.w) / (2 * (this.w * this.w + this.y * this.y) - 1))
+        let pitch, yaw
+        if (Math.abs(Math.cos(roll)) < 0.00001) {
+            pitch = 0
+            yaw = Math.atan((2 * this.x * this.y + 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
         } else {
-            row = Math.atan(2 * (this.y * this.z + this.x * this.w) / (2 * (this.w * this.w + this.z * this.z) - 1))
-            yaw = Math.atan(2 * (this.y * this.x + this.z * this.w) / (2 * (this.w * this.w + this.x * this.x) - 1))
+            pitch = Math.atan(- (2 * this.x * this.z - 2 * this.y * this.w) / (2 * this.w * this.w + 2 * this.z * this.z - 1))
+            yaw = Math.atan(-(2 * this.x * this.y - 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
         }
 
         //to degrees
