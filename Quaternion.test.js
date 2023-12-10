@@ -57,3 +57,12 @@ test("Set", () => {
     expect(q.z).toBe(7)
     expect(q.w).toBe(8)
 })
+
+test("FromToRotation", () => {
+    const q = Quaternion(1, 2, 3, 4)
+    q.SetFromToRotation(new Vector3(1, 0, 0), new Vector3(0, 1, 0))
+    expect(q.x).toBeCloseTo(0)
+    expect(q.y).toBeCloseTo(0)
+    expect(q.z).toBeCloseTo(Math.sqrt(2) / 2)
+    expect(q.w).toBeCloseTo(Math.sqrt(2) / 2)
+})
