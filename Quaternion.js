@@ -35,19 +35,34 @@ class Quaternion {
      * @returns {number[]} [x, y, z] in degrees
      */
     get eulerAngles() {
-        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-3
-        const normalized = this.normalized
+        //based on https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9648712/
 
-        let x = Math.asin(2 * (normalized.y * normalized.z + normalized.x * normalized.w))
+        let y = Math.acos(2 * (normalized.w * normalized.w + normalized.z * normalized.z) - 1)
 
-        let y, z
-        if (Math.abs(Math.cos(x)) < 0.00001) {
-            y = 0
-            z = Math.atan((2 * normalized.x * normalized.y + 2 * normalized.z * normalized.w) / (2 * normalized.w * normalized.w + 2 * normalized.x * normalized.x - 1))
+        const angle_plus = Math.atan2(normalized.z, normalized.w)
+        const angle_minus = Math.atan2(normalized.y, normalized.x)
+
+        let x, z
+
+        if (Math.abs(y) < 0.01) {
+            //y == 0
+            x = 0
+            z = 2 * angle_plus
+        } else if (Math.abs(y - Math.PI / 2) < 0.01) {
+            //y == PI/2
+            x = 0
+            z = 2 * angle_minus
         } else {
-            y = Math.atan(-(2 * normalized.x * normalized.z - 2 * normalized.y * normalized.w) / (2 * normalized.w * normalized.w + 2 * normalized.z * normalized.z - 1))
-            z = Math.atan(-(2 * normalized.x * normalized.y - 2 * normalized.z * normalized.w) / (2 * normalized.w * normalized.w + 2 * normalized.y * normalized.y - 1))
+            //otherwise
+            x = angle_plus + angle_minus
+            z = angle_plus - angle_minus
         }
+
+        //ensure [0, 2PI]
+        if (x < 0) x += 2 * Math.PI
+        if (z < 0) z += 2 * Math.PI
+        if (x > 2 * Math.PI) x -= 2 * Math.PI
+        if (z > 2 * Math.PI) z -= 2 * Math.PI
 
         //to degrees
         x = Quaternion.#ConvertToDegrees(x)
