@@ -296,6 +296,9 @@ class Quaternion {
      * @returns {Quaternion} Interpolated quaternion
      */
     static LerpUnclamped(a, b, t) {
+        a = a.normalized
+        b = b.normalized
+
         let x = a.x * (1 - t) + b.x * t
         let y = a.y * (1 - t) + b.y * t
         let z = a.z * (1 - t) + b.z * t
