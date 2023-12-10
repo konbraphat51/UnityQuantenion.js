@@ -156,7 +156,7 @@ test("Inverse", () => {
 })
 
 test("Identity", () => {
-    const q = Quaternion.Identity()
+    const q = Quaternion.Identity
 
     expect(q.x).toBe(0)
     expect(q.y).toBe(0)
