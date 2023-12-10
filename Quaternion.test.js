@@ -16,28 +16,12 @@ test("eulerAngles() zero-test", () => {
     expect(e[2]).toBeCloseTo(0)
 })
 
-test("eulerAngles() x-axis", () => {
-    const q = new Quaternion(1, 0, 0, 0)
+test("eulerAngles()", () => {
+    const q = (new Quaternion(1, 2, 3, 4)).normalized
     const e = q.eulerAngles
-    expect(e[0]).toBeCloseTo(0)
-    expect(e[1]).toBeCloseTo(180)
-    expect(e[2]).toBeCloseTo(180)
-})
-
-test("eulerAngles() y-axis", () => {
-    const q = new Quaternion(0, 1, 0, 0)
-    const e = q.eulerAngles
-    expect(e[0]).toBeCloseTo(0)
-    expect(e[1]).toBeCloseTo(180)
-    expect(e[2]).toBeCloseTo(0)
-})
-
-test("eulerAngles() z-axis", () => {
-    const q = new Quaternion(0, 0, 1, 0)
-    const e = q.eulerAngles
-    expect(e[0]).toBeCloseTo(0)
-    expect(e[1]).toBeCloseTo(0)
-    expect(e[2]).toBeCloseTo(180)
+    expect(e[0]).toBeCloseTo(352.34, 2)
+    expect(e[1]).toBeCloseTo(47.73, 2)
+    expect(e[2]).toBeCloseTo(70.35, 2)
 })
 
 test("normalization", () => {
