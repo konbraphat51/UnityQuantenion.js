@@ -34,7 +34,6 @@ test("normalization", () => {
 })
 
 test("AngleAxis", () => {
-    (0.04641, 0.09282, 0.13923, 0.98481)
     const q = Quaternion.AngleAxis(20, [1, 2, 3]).normalized
     expect(q.x).toBeCloseTo(0.04641, 2)
     expect(q.y).toBeCloseTo(0.09282, 2)
