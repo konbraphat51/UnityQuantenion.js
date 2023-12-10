@@ -314,14 +314,13 @@ class Quaternion {
         zVec = [zVec[0] / norm_z, zVec[1] / norm_z, zVec[2] / norm_z]
 
         //first rotation: [1, 0, 0] -> xVec
-        let rotaionAxis = Quaternion.#CrossVec([1, 0, 0], xVec)
-        let dot = 1 * xVec[0] + 0 * xVec[1] + 0 * xVec[2]
-        let rotationAngle = Math.acos(dot)
-        const firstRotation = Quaternion.AngleAxis(rotationAngle, rotaionAxis)
+        const firstRotation = Quaternion.FromToRotation([1, 0, 0], xVec)
 
         //second rotaion: rotated [0, 1, 0] -> yVec
-        rotaionAxis = Quaternion.#CrossVec(firstRotation.RotateVector([0, 1, 0]), yVec)
-        dot = firstRotation.RotateVector([0, 1, 0])[0] * yVec[0] + firstRotation.RotateVector([0, 1, 0])[1] * yVec[1] + firstRotation.RotateVector([0, 1, 0])[2] * yVec[2]
+        const yAxisRotatedFirst = firstRotation.RotateVector([0, 1, 0])
+        const secondRotation = Quaternion.FromToRotation(yAxisRotatedFirst, yVec)
+
+        return Quaternion.Multiply(secondRotation, firstRotation)
     }
 
     get #norm() {
