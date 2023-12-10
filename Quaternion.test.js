@@ -105,3 +105,21 @@ test("Multiply", () => {
     expect(q.z).toBeCloseTo(0.2)
     expect(q.w).toBeCloseTo(-0.4)
 })
+
+test("RotateVector", () => {
+    const q = Quaternion(1, 2, 3, 4).normalized
+
+    let v = [4, 5, 6]
+    let norm = Math.sqrt(4 * 4 + 5 * 5 + 6 * 6)
+    v = [v[0] / norm, v[1] / norm, v[2] / norm]
+
+    v = q.RotateVector(v)
+
+    //normalize
+    norm = Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2])
+    v = [v[0] / norm, v[1] / norm, v[2] / norm]
+
+    expect(Approximate(v[0], 0.18, 0.1)).toBe(true)
+    expect(Approximate(v[1], 0.71, 0.1)).toBe(true)
+    expect(Approximate(v[2], 0.68, 0.1)).toBe(true)
+})
