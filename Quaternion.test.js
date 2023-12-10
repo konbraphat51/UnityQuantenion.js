@@ -148,3 +148,13 @@ test("Euler", () => {
     expect(Approximate(q.z, 0.5, 0.1)).toBe(true)
     expect(Approximate(q.w, 0.68, 0.1)).toBe(true)
 })
+
+test("Inverse", () => {
+    const q = Quaternion(0.5, 0.5, 0.5, 0.5)
+    const inv = Quaternion.Inverse(q)
+
+    expect(Approximate(inv.x, -0.5, 0.1)).toBe(true)
+    expect(Approximate(inv.y, -0.5, 0.1)).toBe(true)
+    expect(Approximate(inv.z, -0.5, 0.1)).toBe(true)
+    expect(Approximate(inv.w, 0.5, 0.1)).toBe(true)
+})
