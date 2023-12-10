@@ -90,3 +90,18 @@ test("ToAngleAxis", () => {
     expect(Approximate(axis[1], 0.58, 0.1)).toBe(true)
     expect(Approximate(axis[2], 0.58, 0.1)).toBe(true)
 })
+
+test("ToString", () => {
+    const q = Quaternion(1, 2, 3, 4)
+    expect(q.ToString(1)).toBe("1,2,3,4")
+})
+
+test("Multiply", () => {
+    const q1 = Quaternion(1, 2, 3, 4)
+    const q2 = Quaternion(4, 3, 2, 1)
+    const q = Quaternion.Multiply(q1.normalized, q2.normalized)
+    expect(q.x).toBeCloseTo(0.4)
+    expect(q.y).toBeCloseTo(0.8)
+    expect(q.z).toBeCloseTo(0.2)
+    expect(q.w).toBeCloseTo(-0.4)
+})
