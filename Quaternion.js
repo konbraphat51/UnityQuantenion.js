@@ -81,11 +81,19 @@ class Quaternion {
     }
 
     SetFromToRotation(fromDirection, toDirection) {
-        //TODO
+        const computed = Quaternion.FromToRotation(fromDirection, toDirection)
+        this.x = computed.x
+        this.y = computed.y
+        this.z = computed.z
+        this.w = computed.w
     }
 
     SetLookRotation(view, up) {
-        //TODO
+        const computed = Quaternion.LookRotation(view, up)
+        this.x = computed.x
+        this.y = computed.y
+        this.z = computed.z
+        this.w = computed.w
     }
 
     /**
