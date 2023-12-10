@@ -11,33 +11,33 @@ test("constructor", () => {
 test("eulerAngles() zero-test", () => {
     const q = new Quaternion(0, 0, 0, 1)
     const e = q.eulerAngles
-    expect(e.x).toBe(0)
-    expect(e.y).toBe(0)
-    expect(e.z).toBe(0)
+    expect(e[0]).toBe(0)
+    expect(e[1]).toBe(0)
+    expect(e[2]).toBe(0)
 })
 
 test("eulerAngles() x-axis", () => {
     const q = new Quaternion(1, 0, 0, 0)
     const e = q.eulerAngles
-    expect(e.x).toBe(0)
-    expect(e.y).toBe(180)
-    expect(e.z).toBe(180)
+    expect(e[0]).toBe(0)
+    expect(e[1]).toBe(180)
+    expect(e[2]).toBe(180)
 })
 
 test("eulerAngles() y-axis", () => {
     const q = new Quaternion(0, 1, 0, 0)
     const e = q.eulerAngles
-    expect(e.x).toBe(0)
-    expect(e.y).toBe(180)
-    expect(e.z).toBe(0)
+    expect(e[0]).toBe(0)
+    expect(e[1]).toBe(180)
+    expect(e[2]).toBe(0)
 })
 
 test("eulerAngles() z-axis", () => {
     const q = new Quaternion(0, 0, 1, 0)
     const e = q.eulerAngles
-    expect(e.x).toBe(0)
-    expect(e.y).toBe(0)
-    expect(e.z).toBe(180)
+    expect(e[0]).toBe(0)
+    expect(e[1]).toBe(0)
+    expect(e[2]).toBe(180)
 })
 
 test("normalization", () => {
