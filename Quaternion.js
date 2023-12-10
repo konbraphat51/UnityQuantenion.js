@@ -35,39 +35,42 @@ class Quaternion {
      * @returns {number[]} [x, y, z] in degrees
      */
     get eulerAngles() {
-        //based on https://www.ncbi.nlm.nih.gov/pmc/articles/PMC9648712/
+        //based on https://qiita.com/edo_m18/items/5db35b60112e281f840e#unity%E3%81%A7%E5%AE%9F%E8%A1%8C%E3%81%97%E3%81%A6%E3%81%BF%E3%82%8B
 
-        let y = Math.acos(2 * (normalized.w * normalized.w + normalized.z * normalized.z) - 1)
+        const normalized = this.normalized
+        const _x = normalized.x
+        const _y = normalized.y
+        const _z = normalized.z
+        const _w = normalized.w
 
-        const angle_plus = Math.atan2(normalized.z, normalized.w)
-        const angle_minus = Math.atan2(normalized.y, normalized.x)
+        let sinx = 2 * _y * _z - 2 * _x * _w
+        let x, y, z
 
-        let x, z
-
-        if (Math.abs(y) < 0.01) {
-            //y == 0
-            x = 0
-            z = 2 * angle_plus
-        } else if (Math.abs(y - Math.PI / 2) < 0.01) {
-            //y == PI/2
-            x = 0
-            z = 2 * angle_minus
+        if (Math.abs(sinx - 1) < 0.01) {
+            //sinx == 1 (singularity)
+            x = Math.PI / 2
+            y = 0
+            z = Math.atan2(2 * _x * _y - 2 * _z * _w, 1 - 2 * _y * _y - 2 * _z * _z)
+        } else if (Math.abs(sinx + 1) < 0.01) {
+            //sinx == -1 (singularity)
+            x = -Math.PI / 2
+            y = 9
+            z = Math.atan2(2 * _x * _y - 2 * _z * _w, 1 - 2 * _y * _y - 2 * _z * _z)
         } else {
-            //otherwise
-            x = angle_plus + angle_minus
-            z = angle_plus - angle_minus
+            x = Math.asin(-sinx)
+            y = Math.atan2(2 * _x * _z + 2 * _y * _w, 1 - 2 * _x * _x - 2 * _y * _y)
+            z = Math.atan2(2 * _x * _y + 2 * _z * _w, 1 - 2 * _x * _x - 2 * _z * _z)
         }
-
-        //ensure [0, 2PI]
-        if (x < 0) x += 2 * Math.PI
-        if (z < 0) z += 2 * Math.PI
-        if (x > 2 * Math.PI) x -= 2 * Math.PI
-        if (z > 2 * Math.PI) z -= 2 * Math.PI
 
         //to degrees
         x = Quaternion.#ConvertToDegrees(x)
         y = Quaternion.#ConvertToDegrees(y)
         z = Quaternion.#ConvertToDegrees(z)
+
+        //to [0, 360]
+        if (x < 0) x += 360
+        if (y < 0) y += 360
+        if (z < 0) z += 360
 
         return [x, y, z]
     }
