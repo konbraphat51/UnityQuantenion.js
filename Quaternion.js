@@ -237,11 +237,20 @@ class Quaternion {
      * @returns {Quaternion} Quaternion made
      */
     static FromToRotation(fromDirection, toDirection) {
-        //quaternion of both directions
-        let qFrom = Quaternion.AngleAxis(0, fromDirection)
-        let qTo = Quaternion.AngleAxis(0, toDirection)
+        //normalize
+        const fromDirectionNorm = Math.sqrt(fromDirection[0] * fromDirection[0] + fromDirection[1] * fromDirection[1] + fromDirection[2] * fromDirection[2])
+        fromDirection = [fromDirection[0] / fromDirectionNorm, fromDirection[1] / fromDirectionNorm, fromDirection[2] / fromDirectionNorm]
+        const toDirectionNorm = Math.sqrt(toDirection[0] * toDirection[0] + toDirection[1] * toDirection[1] + toDirection[2] * toDirection[2])
+        toDirection = [toDirection[0] / toDirectionNorm, toDirection[1] / toDirectionNorm, toDirection[2] / toDirectionNorm]
 
-        return Quaternion.Multiply(Quaternion.Inverse(qFrom), qTo)
+        // rotation axis
+        const rotationAxis = Quaternion.#CrossVec(fromDirection, toDirection)
+
+        //get angle
+        const dot = fromDirection[0] * toDirection[0] + fromDirection[1] * toDirection[1] + fromDirection[2] * toDirection[2]
+        const angle = Math.acos(dot)
+
+        return Quaternion.AngleAxis(angle, rotationAxis)
     }
 
     /**
