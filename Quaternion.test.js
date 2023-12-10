@@ -158,3 +158,12 @@ test("Inverse", () => {
     expect(Approximate(inv.z, -0.5, 0.1)).toBe(true)
     expect(Approximate(inv.w, 0.5, 0.1)).toBe(true)
 })
+
+test("Identity", () => {
+    const q = Quaternion.Identity()
+
+    expect(q.x).toBe(0)
+    expect(q.y).toBe(0)
+    expect(q.z).toBe(0)
+    expect(q.w).toBe(1)
+})
