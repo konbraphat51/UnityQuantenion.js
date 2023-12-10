@@ -36,16 +36,17 @@ class Quaternion {
      */
     get eulerAngles() {
         //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-3
+        const normalized = this.normalized
 
-        let x = Math.asin(2 * (this.y * this.z + this.x * this.w))
+        let x = Math.asin(2 * (normalized.y * normalized.z + normalized.x * normalized.w))
 
         let y, z
         if (Math.abs(Math.cos(x)) < 0.00001) {
             y = 0
-            z = Math.atan((2 * this.x * this.y + 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.x * this.x - 1))
+            z = Math.atan((2 * normalized.x * normalized.y + 2 * normalized.z * normalized.w) / (2 * normalized.w * normalized.w + 2 * normalized.x * normalized.x - 1))
         } else {
-            y = Math.atan(-(2 * this.x * this.z - 2 * this.y * this.w) / (2 * this.w * this.w + 2 * this.z * this.z - 1))
-            z = Math.atan(-(2 * this.x * this.y - 2 * this.z * this.w) / (2 * this.w * this.w + 2 * this.y * this.y - 1))
+            y = Math.atan(-(2 * normalized.x * normalized.z - 2 * normalized.y * normalized.w) / (2 * normalized.w * normalized.w + 2 * normalized.z * normalized.z - 1))
+            z = Math.atan(-(2 * normalized.x * normalized.y - 2 * normalized.z * normalized.w) / (2 * normalized.w * normalized.w + 2 * normalized.y * normalized.y - 1))
         }
 
         //to degrees
