@@ -218,6 +218,10 @@ class Quaternion {
         const sin_half = Math.sin(rad / 2)
         const cos_half = Math.cos(rad / 2)
 
+        //normalize axis
+        const norm = Math.sqrt(axis[0] * axis[0] + axis[1] * axis[1] + axis[2] * axis[2])
+        axis = [axis[0] / norm, axis[1] / norm, axis[2] / norm]
+
         const x = axis[0] * sin_half
         const y = axis[1] * sin_half
         const z = axis[2] * sin_half
