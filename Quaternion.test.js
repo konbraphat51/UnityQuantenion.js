@@ -140,3 +140,11 @@ test("Dot", () => {
     expect(Approximate(result, 23, 0.01)).toBe(true)
 })
 
+test("Euler", () => {
+    const q = Quaternion.Euler(30, 60, 90)
+
+    expect(Approximate(q.x, 0.5, 0.1)).toBe(true)
+    expect(Approximate(q.y, 0.18, 0.1)).toBe(true)
+    expect(Approximate(q.z, 0.5, 0.1)).toBe(true)
+    expect(Approximate(q.w, 0.68, 0.1)).toBe(true)
+})
