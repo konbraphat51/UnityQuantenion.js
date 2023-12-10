@@ -81,3 +81,12 @@ test("LookRotation", () => {
     expect(Approximate(q.z, 0.11, 0.1)).toBe(true)
     expect(Approximate(q.w, 0.88, 0.1)).toBe(true)
 })
+
+test("ToAngleAxis", () => {
+    const q = Quaternion(1, 1, 1, 1).normalized
+    const [angle, axis] = q.ToAngleAxis()
+    expect(Approximate(angle, 120)).toBe(true)
+    expect(Approximate(axis[0], 0.58, 0.1)).toBe(true)
+    expect(Approximate(axis[1], 0.58, 0.1)).toBe(true)
+    expect(Approximate(axis[2], 0.58, 0.1)).toBe(true)
+})
