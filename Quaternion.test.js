@@ -123,3 +123,10 @@ test("RotateVector", () => {
     expect(Approximate(v[1], 0.71, 0.1)).toBe(true)
     expect(Approximate(v[2], 0.68, 0.1)).toBe(true)
 })
+
+test("Angle", () => {
+    const q0 = Quaternion(1, 2, 3, 4).normalized
+    const q1 = Quaternion(4, 2, 1, 3).normalized
+
+    expect(Approximate(Quaternion.Angle(q0, q1), 79.88902, 0.1)).toBe(true)
+})
