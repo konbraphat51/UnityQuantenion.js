@@ -234,12 +234,12 @@ class Quaternion {
         const sz = Math.sin(Quaternion.#ConvertToRad(z) / 2)
         const cz = Math.cos(Quaternion.#ConvertToRad(z) / 2)
 
-        const x = - cx * sy * sz + sx * cy * cz
-        const y = cx * sy * cz + sx * cy * sz
-        const z = sx * sy * cz + cx * cy * sz
-        const w = -sx * sy * sz + cx * cy * cz
+        const _x = - cx * sy * sz + sx * cy * cz
+        const _y = cx * sy * cz + sx * cy * sz
+        const _z = sx * sy * cz + cx * cy * sz
+        const _w = -sx * sy * sz + cx * cy * cz
 
-        return new Quaternion(x, y, z, w)
+        return new Quaternion(_x, _y, _z, _w)
     }
 
     /**
