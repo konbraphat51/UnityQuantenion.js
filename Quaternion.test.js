@@ -25,12 +25,13 @@ test("eulerAngles()", () => {
 })
 
 test("normalization", () => {
-    const q = new Quaternion(3, 0, 4, 0)
+    (0.18257, 0.36515, 0.54772, 0.73030)
+    const q = new Quaternion(1, 2, 3, 4)
     const n = q.normalized
-    expect(n.x).toBeCloseTo(0.6, 1)
-    expect(n.y).toBeCloseTo(0, 2)
-    expect(n.z).toBeCloseTo(0.8, 1)
-    expect(n.w).toBeCloseTo(0, 1)
+    expect(n.x).toBeCloseTo(0.18257, 3)
+    expect(n.y).toBeCloseTo(0.36515, 3)
+    expect(n.z).toBeCloseTo(0.54772, 3)
+    expect(n.w).toBeCloseTo(0.73030, 3)
 })
 
 test("Set", () => {
