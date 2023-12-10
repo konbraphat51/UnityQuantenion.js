@@ -46,11 +46,11 @@ test("Set", () => {
 test("FromToRotation", () => {
     const q = new Quaternion(1, 2, 3, 4)
     //cover setter too
-    q.SetFromToRotation([1, 0, 0], [0, 1, 0])
-    expect(q.x).toBeCloseTo(0, 2)
-    expect(q.y).toBeCloseTo(0, 2)
-    expect(q.z).toBeCloseTo(Math.sqrt(2) / 2, 2)
-    expect(q.w).toBeCloseTo(Math.sqrt(2) / 2, 2)
+    q.SetFromToRotation([5, 6, 7], [1, 2, 3])
+    expect(q.x).toBeCloseTo(0.05137, 2)
+    expect(q.y).toBeCloseTo(-0.10275, 2)
+    expect(q.z).toBeCloseTo(0.05137, 2)
+    expect(q.w).toBeCloseTo(0.99205, 2)
 })
 
 test("LookRotation", () => {
