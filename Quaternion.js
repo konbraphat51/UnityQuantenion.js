@@ -187,21 +187,11 @@ class Quaternion {
      * @see https://docs.unity3d.com/ScriptReference/Quaternion.Angle.html
      */
     static Angle(a, b) {
-        //simulate moved x-axis
-        let aMoved = a.normalized.RotateVector([1, 0, 0])
-        let bMoved = b.normalized.RotateVector([1, 0, 0])
+        const dot = Quaternion.Dot(a.normalized, b.normalized)
+        const rad = Math.acos(dot) * 2
+        const degrees = Quaternion.#ConvertToDegrees(rad)
 
-        //normalize
-        const aMovedNorm = Math.sqrt(aMoved[0] * aMoved[0] + aMoved[1] * aMoved[1] + aMoved[2] * aMoved[2])
-        aMoved = [aMoved[0] / aMovedNorm, aMoved[1] / aMovedNorm, aMoved[2] / aMovedNorm]
-        const bMovedNorm = Math.sqrt(bMoved[0] * bMoved[0] + bMoved[1] * bMoved[1] + bMoved[2] * bMoved[2])
-        bMoved = [bMoved[0] / bMovedNorm, bMoved[1] / bMovedNorm, bMoved[2] / bMovedNorm]
-
-        //get angle
-        const dot = aMoved[0] * bMoved[0] + aMoved[1] * bMoved[1] + aMoved[2] * bMoved[2]
-        const angle = Quaternion.#ConvertToDegrees(Math.acos(dot))
-
-        return angle
+        return degrees
     }
 
     /**
