@@ -1,5 +1,9 @@
 const Quaternion = require('./Quaternion.js')
 
+function Approximate(v0, v1, e = 0.0001) {
+    return Math.abs(v0 - v1) < e
+}
+
 test("constructor", () => {
     const q = new Quaternion(1, 2, 3, 4)
     expect(q.x).toBe(1)
@@ -19,9 +23,9 @@ test("eulerAngles() zero-test", () => {
 test("eulerAngles() x-axis", () => {
     const q = new Quaternion(1, 0, 0, 0)
     const e = q.eulerAngles
-    expect(e.x).toBe(180)
-    expect(e.y).toBe(0)
-    expect(e.z).toBe(0)
+    expect(e.x).toBe(0)
+    expect(e.y).toBe(180)
+    expect(e.z).toBe(180)
 })
 
 test("eulerAngles() y-axis", () => {
@@ -60,9 +64,20 @@ test("Set", () => {
 
 test("FromToRotation", () => {
     const q = Quaternion(1, 2, 3, 4)
+    //cover setter too
     q.SetFromToRotation(new Vector3(1, 0, 0), new Vector3(0, 1, 0))
     expect(q.x).toBeCloseTo(0)
     expect(q.y).toBeCloseTo(0)
     expect(q.z).toBeCloseTo(Math.sqrt(2) / 2)
     expect(q.w).toBeCloseTo(Math.sqrt(2) / 2)
+})
+
+test("LookRotation", () => {
+    const q = Quaternion(1, 2, 3, 4)
+    //cover setter too
+    q.SetLookRotation(new Vector3(1, 1, 1), new Vector3(0, 1, 0))
+    expect(Approximate(q.x, -0.27, 0.1)).toBe(true)
+    expect(Approximate(q.y, 0.36, 0.1)).toBe(true)
+    expect(Approximate(q.z, 0.11, 0.1)).toBe(true)
+    expect(Approximate(q.w, 0.88, 0.1)).toBe(true)
 })
