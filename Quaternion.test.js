@@ -55,7 +55,7 @@ test("normalization", () => {
 
 test("Set", () => {
     const q = new Quaternion(1, 2, 3, 4)
-    q.set(5, 6, 7, 8)
+    q.Set(5, 6, 7, 8)
     expect(q.x).toBe(5)
     expect(q.y).toBe(6)
     expect(q.z).toBe(7)
