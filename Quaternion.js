@@ -65,6 +65,10 @@ class Quaternion {
         return new Quaternion(this.x / norm, this.y / norm, this.z / norm, this.w / norm)
     }
 
+    static get identity() {
+        return new Quaternion(0, 0, 0, 1)
+    }
+
     /**
      * @description Set x, y, z and w components of an existing Quaternion.
      * @param {number} x 0th element of the quaternion 
