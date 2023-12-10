@@ -167,3 +167,15 @@ test("Identity", () => {
     expect(q.z).toBe(0)
     expect(q.w).toBe(1)
 })
+
+test("Lerp", () => {
+    const q0 = Quaternion(1, 2, 3, 4)
+    const q1 = Quaternion(2, 2, 2, 2)
+
+    const q = Quaternion.Lerp(q0, q1, 0.5)
+
+    expect(Approximate(q.x, 0.32350, 0.1)).toBe(true)
+    expect(Approximate(q.y, 0.43133, 0.1)).toBe(true)
+    expect(Approximate(q.z, 0.53916, 0.1)).toBe(true)
+    expect(Approximate(q.w, 0.64700, 0.1)).toBe(true)
+})
