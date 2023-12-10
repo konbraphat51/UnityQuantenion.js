@@ -63,7 +63,7 @@ test("Set", () => {
 })
 
 test("FromToRotation", () => {
-    const q = Quaternion(1, 2, 3, 4)
+    const q = new Quaternion(1, 2, 3, 4)
     //cover setter too
     q.SetFromToRotation(new Vector3(1, 0, 0), new Vector3(0, 1, 0))
     expect(q.x).toBeCloseTo(0)
@@ -73,7 +73,7 @@ test("FromToRotation", () => {
 })
 
 test("LookRotation", () => {
-    const q = Quaternion(1, 2, 3, 4)
+    const q = new Quaternion(1, 2, 3, 4)
     //cover setter too
     q.SetLookRotation(new Vector3(1, 1, 1), new Vector3(0, 1, 0))
     expect(Approximate(q.x, -0.27, 0.1)).toBe(true)
@@ -83,7 +83,7 @@ test("LookRotation", () => {
 })
 
 test("ToAngleAxis", () => {
-    const q = Quaternion(1, 1, 1, 1).normalized
+    const q = new Quaternion(1, 1, 1, 1).normalized
     const [angle, axis] = q.ToAngleAxis()
     expect(Approximate(angle, 120)).toBe(true)
     expect(Approximate(axis[0], 0.58, 0.1)).toBe(true)
@@ -92,13 +92,13 @@ test("ToAngleAxis", () => {
 })
 
 test("ToString", () => {
-    const q = Quaternion(1, 2, 3, 4)
+    const q = new Quaternion(1, 2, 3, 4)
     expect(q.ToString(1)).toBe("1,2,3,4")
 })
 
 test("Multiply", () => {
-    const q1 = Quaternion(1, 2, 3, 4)
-    const q2 = Quaternion(4, 3, 2, 1)
+    const q1 = new Quaternion(1, 2, 3, 4)
+    const q2 = new Quaternion(4, 3, 2, 1)
     const q = Quaternion.Multiply(q1.normalized, q2.normalized)
     expect(q.x).toBeCloseTo(0.4)
     expect(q.y).toBeCloseTo(0.8)
@@ -107,7 +107,7 @@ test("Multiply", () => {
 })
 
 test("RotateVector", () => {
-    const q = Quaternion(1, 2, 3, 4).normalized
+    const q = (new Quaternion(1, 2, 3, 4)).normalized
 
     let v = [4, 5, 6]
     let norm = Math.sqrt(4 * 4 + 5 * 5 + 6 * 6)
@@ -125,15 +125,15 @@ test("RotateVector", () => {
 })
 
 test("Angle", () => {
-    const q0 = Quaternion(1, 2, 3, 4).normalized
-    const q1 = Quaternion(4, 2, 1, 3).normalized
+    const q0 = (new Quaternion(1, 2, 3, 4)).normalized
+    const q1 = (new Quaternion(4, 2, 1, 3)).normalized
 
     expect(Approximate(Quaternion.Angle(q0, q1), 79.88902, 0.1)).toBe(true)
 })
 
 test("Dot", () => {
-    const q0 = Quaternion(1, 2, 3, 4)
-    const q1 = Quaternion(4, 2, 1, 3)
+    const q0 = new Quaternion(1, 2, 3, 4)
+    const q1 = new Quaternion(4, 2, 1, 3)
 
     const result = Quaternion.Dot(q0, q1)
 
@@ -150,7 +150,7 @@ test("Euler", () => {
 })
 
 test("Inverse", () => {
-    const q = Quaternion(0.5, 0.5, 0.5, 0.5)
+    const q = new Quaternion(0.5, 0.5, 0.5, 0.5)
     const inv = Quaternion.Inverse(q)
 
     expect(Approximate(inv.x, -0.5, 0.1)).toBe(true)
@@ -169,8 +169,8 @@ test("Identity", () => {
 })
 
 test("Lerp", () => {
-    const q0 = Quaternion(1, 2, 3, 4)
-    const q1 = Quaternion(2, 2, 2, 2)
+    const q0 = new Quaternion(1, 2, 3, 4)
+    const q1 = new Quaternion(2, 2, 2, 2)
 
     const q = Quaternion.Lerp(q0, q1, 0.5)
 

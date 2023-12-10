@@ -304,7 +304,7 @@ class Quaternion {
         let z = a.z * (1 - t) + b.z * t
         let w = a.w * (1 - t) + b.w * t
 
-        return Quaternion(x, y, z, w).normalized
+        return new Quaternion(x, y, z, w).normalized
     }
 
     /**
