@@ -279,7 +279,7 @@ class Quaternion {
 
         //get angle
         const dot = fromDirection[0] * toDirection[0] + fromDirection[1] * toDirection[1] + fromDirection[2] * toDirection[2]
-        const angle = Math.acos(dot)
+        const angle = Quaternion.#ConvertToDegrees(Math.acos(dot))
 
         return Quaternion.AngleAxis(angle, rotationAxis)
     }
