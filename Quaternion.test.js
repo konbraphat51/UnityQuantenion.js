@@ -89,7 +89,7 @@ test("ToAngleAxis", () => {
 
 test("ToString", () => {
     const q = new Quaternion(1, 2, 3, 4)
-    expect(q.ToString(1)).toBe("1,2,3,4")
+    expect(q.ToString(1)).toBe("(1.0, 2.0, 3.0, 4.0)")
 })
 
 test("Multiply", () => {
