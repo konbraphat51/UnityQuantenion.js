@@ -128,7 +128,7 @@ class Quaternion {
 
         const normalized = this.normalized
 
-        let angle = 2 * Math.acos(normalized)
+        let angle = 2 * Math.acos(normalized.w)
 
         const sin_half = Math.sin(angle / 2)
         const axis = [normalized.x / sin_half, normalized.y / sin_half, normalized.z / sin_half]
