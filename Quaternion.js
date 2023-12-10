@@ -271,7 +271,7 @@ class Quaternion {
      * @returns {Quaternion} Inverse of rotation
      */
     static Inverse(rotation) {
-        return rotation.#conjugate / (rotation.norm * rotation.norm)
+        return rotation.#conjugate / (rotation.#norm * rotation.#norm)
     }
 
     /**
@@ -344,10 +344,6 @@ class Quaternion {
 
     get #conjugate() {
         return new Quaternion(-this.x, -this.y, -this.z, this.w)
-    }
-
-    static #IsZero(x) {
-        return this.norm < 0.00001
     }
 
     static #ConvertToDegrees(rad) {
