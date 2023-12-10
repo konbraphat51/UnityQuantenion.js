@@ -271,7 +271,10 @@ class Quaternion {
      * @returns {Quaternion} Inverse of rotation
      */
     static Inverse(rotation) {
-        return rotation.#conjugate / (rotation.#norm * rotation.#norm)
+        const c = rotation.#conjugate
+        const division = rotation.#norm * rotation.#norm
+
+        return new Quaternion(c.x / division, c.y / division, c.z / division, c.w / division)
     }
 
     /**
