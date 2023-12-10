@@ -135,6 +135,21 @@ class Quaternion {
     }
 
     /**
+     * @description Rotate a vector
+     * @param {number[]} vector vector to rotate
+     * @returns {number[]} rotated vector
+     */
+    RotateVector(vector) {
+        const normalized = this.normalized
+        const inverted = normalized.#conjugate
+        const qVector = new Quaternion(vector[0], vector[1], vector[2], 0)
+
+        const rotated = Quaternion.Multiply(normalized, Quaternion.Multiply(qVector, inverted))
+
+        return [rotated.x, rotated.y, rotated.z]
+    }
+
+    /**
      * @description Returns the angle in degrees between two rotations a and b.
      * @param {Quaternion} a quanternion
      * @param {Quaternion} b quanternion
@@ -235,7 +250,7 @@ class Quaternion {
      * @returns {Quaternion} Inverse of rotation
      */
     static Inverse(rotation) {
-        return new Quaternion(-rotation.x, -rotation.y, -rotation.z, rotation.w)
+        return rotation.#conjugate / (rotation.norm * rotation.norm)
     }
 
     /**
@@ -277,11 +292,35 @@ class Quaternion {
      * @returns {Quaternion} Quaternion made
      */
     static LookRotation(forward, upwards = [0, 1, 0]) {
+        let zVec = forward
+        let xVec = Quaternion.#CrossVec(upwards, zVec)
+        let yVec = Quaternion.#CrossVec(zVec, xVec)
 
+        //normalize
+        const norm_x = Math.sqrt(xVec[0] * xVec[0] + xVec[1] * xVec[1] + xVec[2] * xVec[2])
+        xVec = [xVec[0] / norm_x, xVec[1] / norm_x, xVec[2] / norm_x]
+        const norm_y = Math.sqrt(yVec[0] * yVec[0] + yVec[1] * yVec[1] + yVec[2] * yVec[2])
+        yVec = [yVec[0] / norm_y, yVec[1] / norm_y, yVec[2] / norm_y]
+        const norm_z = Math.sqrt(zVec[0] * zVec[0] + zVec[1] * zVec[1] + zVec[2] * zVec[2])
+        zVec = [zVec[0] / norm_z, zVec[1] / norm_z, zVec[2] / norm_z]
+
+        //first rotation: [1, 0, 0] -> xVec
+        let rotaionAxis = Quaternion.#CrossVec([1, 0, 0], xVec)
+        let dot = 1 * xVec[0] + 0 * xVec[1] + 0 * xVec[2]
+        let rotationAngle = Math.acos(dot)
+        const firstRotation = Quaternion.AngleAxis(rotationAngle, rotaionAxis)
+
+        //second rotaion: rotated [0, 1, 0] -> yVec
+        rotaionAxis = Quaternion.#CrossVec(firstRotation.RotateVector([0, 1, 0]), yVec)
+        dot = firstRotation.RotateVector([0, 1, 0])[0] * yVec[0] + firstRotation.RotateVector([0, 1, 0])[1] * yVec[1] + firstRotation.RotateVector([0, 1, 0])[2] * yVec[2]
     }
 
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
+    }
+
+    get #conjugate() {
+        return new Quaternion(-this.x, -this.y, -this.z, this.w)
     }
 
     static #IsZero(x) {
@@ -294,6 +333,14 @@ class Quaternion {
 
     static #ConvertToRad(deg) {
         return deg * Math.PI / 180
+    }
+
+    static #CrossVec(a, b) {
+        let x = a[1] * b[2] - a[2] * b[1]
+        let y = a[2] * b[0] - a[0] * b[2]
+        let z = a[0] * b[1] - a[1] * b[0]
+
+        return [x, y, z]
     }
 }
 
