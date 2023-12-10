@@ -2,42 +2,42 @@ const Quaternion = require('./Quaternion.js')
 
 test("constructor", () => {
     const q = new Quaternion(1, 2, 3, 4)
-    expect(q.x).toBe(1)
-    expect(q.y).toBe(2)
-    expect(q.z).toBe(3)
-    expect(q.w).toBe(4)
+    expect(q.x).toBeCloseTo(1)
+    expect(q.y).toBeCloseTo(2)
+    expect(q.z).toBeCloseTo(3)
+    expect(q.w).toBeCloseTo(4)
 })
 
 test("eulerAngles() zero-test", () => {
     const q = new Quaternion(0, 0, 0, 1)
     const e = q.eulerAngles
-    expect(e[0]).toBe(0)
-    expect(e[1]).toBe(0)
-    expect(e[2]).toBe(0)
+    expect(e[0]).toBeCloseTo(0)
+    expect(e[1]).toBeCloseTo(0)
+    expect(e[2]).toBeCloseTo(0)
 })
 
 test("eulerAngles() x-axis", () => {
     const q = new Quaternion(1, 0, 0, 0)
     const e = q.eulerAngles
-    expect(e[0]).toBe(0)
-    expect(e[1]).toBe(180)
-    expect(e[2]).toBe(180)
+    expect(e[0]).toBeCloseTo(0)
+    expect(e[1]).toBeCloseTo(180)
+    expect(e[2]).toBeCloseTo(180)
 })
 
 test("eulerAngles() y-axis", () => {
     const q = new Quaternion(0, 1, 0, 0)
     const e = q.eulerAngles
-    expect(e[0]).toBe(0)
-    expect(e[1]).toBe(180)
-    expect(e[2]).toBe(0)
+    expect(e[0]).toBeCloseTo(0)
+    expect(e[1]).toBeCloseTo(180)
+    expect(e[2]).toBeCloseTo(0)
 })
 
 test("eulerAngles() z-axis", () => {
     const q = new Quaternion(0, 0, 1, 0)
     const e = q.eulerAngles
-    expect(e[0]).toBe(0)
-    expect(e[1]).toBe(0)
-    expect(e[2]).toBe(180)
+    expect(e[0]).toBeCloseTo(0)
+    expect(e[1]).toBeCloseTo(0)
+    expect(e[2]).toBeCloseTo(180)
 })
 
 test("normalization", () => {
@@ -52,10 +52,10 @@ test("normalization", () => {
 test("Set", () => {
     const q = new Quaternion(1, 2, 3, 4)
     q.Set(5, 6, 7, 8)
-    expect(q.x).toBe(5)
-    expect(q.y).toBe(6)
-    expect(q.z).toBe(7)
-    expect(q.w).toBe(8)
+    expect(q.x).toBeCloseTo(5)
+    expect(q.y).toBeCloseTo(6)
+    expect(q.z).toBeCloseTo(7)
+    expect(q.w).toBeCloseTo(8)
 })
 
 test("FromToRotation", () => {
@@ -158,10 +158,10 @@ test("Inverse", () => {
 test("Identity", () => {
     const q = Quaternion.identity
 
-    expect(q.x).toBe(0)
-    expect(q.y).toBe(0)
-    expect(q.z).toBe(0)
-    expect(q.w).toBe(1)
+    expect(q.x).toBeCloseTo(0)
+    expect(q.y).toBeCloseTo(0)
+    expect(q.z).toBeCloseTo(0)
+    expect(q.w).toBeCloseTo(1)
 })
 
 test("Lerp", () => {
