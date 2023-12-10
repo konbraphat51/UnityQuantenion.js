@@ -187,21 +187,19 @@ class Quaternion {
      * @see https://docs.unity3d.com/ScriptReference/Quaternion.Angle.html
      */
     static Angle(a, b) {
-        //get both axises
-        let temp = a.ToAngleAxis()
-        let axis_a = temp[1]
-        temp = b.ToAngleAxis()
-        let axis_b = temp[1]
+        //simulate moved x-axis
+        let aMoved = a.normalized.RotateVector([1, 0, 0])
+        let bMoved = b.normalized.RotateVector([1, 0, 0])
 
-        //normalize both axises
-        const norm_a = Math.sqrt(axis_a[0] * axis_a[0] + axis_a[1] * axis_a[1] + axis_a[2] * axis_a[2])
-        axis_a = [axis_a[0] / norm_a, axis_a[1] / norm_a, axis_a[2] / norm_a]
-        const norm_b = Math.sqrt(axis_b[0] * axis_b[0] + axis_b[1] * axis_b[1] + axis_b[2] * axis_b[2])
-        axis_b = [axis_b[0] / norm_b, axis_b[1] / norm_b, axis_b[2] / norm_b]
+        //normalize
+        const aMovedNorm = Math.sqrt(aMoved[0] * aMoved[0] + aMoved[1] * aMoved[1] + aMoved[2] * aMoved[2])
+        aMoved = [aMoved[0] / aMovedNorm, aMoved[1] / aMovedNorm, aMoved[2] / aMovedNorm]
+        const bMovedNorm = Math.sqrt(bMoved[0] * bMoved[0] + bMoved[1] * bMoved[1] + bMoved[2] * bMoved[2])
+        bMoved = [bMoved[0] / bMovedNorm, bMoved[1] / bMovedNorm, bMoved[2] / bMovedNorm]
 
-        //calculate angle between 2 axis vectors
-        let angle = Math.acos(axis_a[0] * axis_b[0] + axis_a[1] * axis_b[1] + axis_a[2] * axis_b[2])
-        angle = Quaternion.#ConvertToDegrees(angle)
+        //get angle
+        const dot = aMoved[0] * bMoved[0] + aMoved[1] * bMoved[1] + aMoved[2] * bMoved[2]
+        const angle = Quaternion.#ConvertToDegrees(Math.acos(dot))
 
         return angle
     }
