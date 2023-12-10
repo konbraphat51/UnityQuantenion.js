@@ -236,7 +236,7 @@ class Quaternion {
      * @return {Quaternion} Quaternion made
      */
     static Euler(x, y, z) {
-        //based on https://qiita.com/aa_debdeb/items/3d02e28fb9ebfa357eaf#%E5%9B%9E%E8%BB%A2%E9%A0%86zxy-2
+        //based on https://ohtorii.hatenadiary.jp/entry/20150424/p1
 
         const sx = Math.sin(Quaternion.#ConvertToRad(x) / 2)
         const cx = Math.cos(Quaternion.#ConvertToRad(x) / 2)
@@ -245,10 +245,10 @@ class Quaternion {
         const sz = Math.sin(Quaternion.#ConvertToRad(z) / 2)
         const cz = Math.cos(Quaternion.#ConvertToRad(z) / 2)
 
-        const _x = - cx * sy * sz + sx * cy * cz
-        const _y = cx * sy * cz + sx * cy * sz
-        const _z = sx * sy * cz + cx * cy * sz
-        const _w = -sx * sy * sz + cx * cy * cz
+        const _x = cx * sy * sz + cy * cz * sx
+        const _y = cx * cz * sy - cy * sx * sz
+        const _z = cx * cy * sz - cz * sx * sy
+        const _w = sx * sy * sz + cx * cy * cz
 
         return new Quaternion(_x, _y, _z, _w)
     }
