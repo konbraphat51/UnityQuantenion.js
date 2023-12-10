@@ -49,4 +49,11 @@ test("normalization", () => {
     expect(n.w).toBeCloseTo(0)
 })
 
-
+test("Set", () => {
+    const q = new Quaternion(1, 2, 3, 4)
+    q.set(5, 6, 7, 8)
+    expect(q.x).toBe(5)
+    expect(q.y).toBe(6)
+    expect(q.z).toBe(7)
+    expect(q.w).toBe(8)
+})
