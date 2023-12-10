@@ -130,3 +130,13 @@ test("Angle", () => {
 
     expect(Approximate(Quaternion.Angle(q0, q1), 79.88902, 0.1)).toBe(true)
 })
+
+test("Dot", () => {
+    const q0 = Quaternion(1, 2, 3, 4)
+    const q1 = Quaternion(4, 2, 1, 3)
+
+    const result = Quaternion.Dot(q0, q1)
+
+    expect(Approximate(result, 23, 0.01)).toBe(true)
+})
+
