@@ -54,7 +54,7 @@ class Quaternion {
         } else if (Math.abs(sinx + 1) < 0.01) {
             //sinx == -1 (singularity)
             x = -Math.PI / 2
-            y = 9
+            y = 0
             z = Math.atan2(2 * _x * _y - 2 * _z * _w, 1 - 2 * _y * _y - 2 * _z * _z)
         } else {
             x = Math.asin(-sinx)
