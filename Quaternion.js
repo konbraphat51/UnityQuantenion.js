@@ -2,6 +2,7 @@
  * Full Scratch UnityEngine.Quaternion implementation
  *
  * Writer: https://github.com/konbraphat51
+ * LICENSE: BSD 1-Clause License (Write my name when using, no need when compiled)
  */
 
 /**
