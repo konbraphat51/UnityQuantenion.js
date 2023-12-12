@@ -362,6 +362,30 @@ class Quaternion {
         return q.normalized
     }
 
+    /**
+     * @description Get a rotation between 2 quaternions
+     * @param {Quaternion} from Quaternion starts from
+     * @param {Quaternion} to Quaternion ends at
+     * @param {number} maxDegreesDelta Maximum number of degrees to rotate allowed
+     */
+    static RotateTowards(from, to, maxDegreesDelta = 10000) {
+        //normalize
+        from = from.normalized
+        to = to.normalized
+
+        // get destination to go to
+        let angle = Quaternion.Angle(from, to)
+
+        let ratio;
+        if (angle > maxDegreesDelta) ratio = maxDegreesDelta / angle
+        else ratio = 1
+
+        let target = Quaternion.Lerp(from, to, ratio)
+
+        //from -> target
+        return Quaternion.Multiply(Quaternion.Inverse(from), target)
+    }
+
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
