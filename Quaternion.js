@@ -2,6 +2,7 @@
  * Full Scratch UnityEngine.Quaternion implementation
  *
  * Writer: https://github.com/konbraphat51
+ * LICENSE: BSD 1-Clause License (Write my name when using, no need when compiled)
  */
 
 /**
@@ -54,7 +55,7 @@ class Quaternion {
         } else if (Math.abs(sinx + 1) < 0.01) {
             //sinx == -1 (singularity)
             x = -Math.PI / 2
-            y = 9
+            y = 0
             z = Math.atan2(2 * _x * _y - 2 * _z * _w, 1 - 2 * _y * _y - 2 * _z * _z)
         } else {
             x = Math.asin(-sinx)
@@ -352,6 +353,15 @@ class Quaternion {
         return Quaternion.Multiply(secondRotation, firstRotation)
     }
 
+    /**
+     * @description Returns a normalized quaternion
+     * @param {Quaternion} q Quaternion to be normalized 
+     * @returns Normalized quaternion
+     */
+    static Normalize(q) {
+        return q.normalized
+    }
+
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
@@ -376,5 +386,3 @@ class Quaternion {
         return [x, y, z]
     }
 }
-
-module.exports = Quaternion
