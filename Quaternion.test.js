@@ -174,3 +174,27 @@ test("Lerp", () => {
     expect(q.z).toBeCloseTo(0.54, 1)
     expect(q.w).toBeCloseTo(0.65, 1)
 })
+
+test("RotateTowards; limitted", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(4, 2, 1, 3).normalized
+
+    const q = Quaternion.RotateTowards(q0, q1, 30)
+
+    expect(q.x).toBeCloseTo(0.41432, 2)
+    expect(q.y).toBeCloseTo(0.38705, 2)
+    expect(q.z).toBeCloseTo(0.43338, 2)
+    expect(q.w).toBeCloseTo(0.70051, 2)
+})
+
+test("RotateTowards; unlimited", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(4, 2, 1, 3).normalized
+
+    const q = Quaternion.RotateTowards(q0, q1)
+
+    expect(q.x).toBeCloseTo(0.73030, 2)
+    expect(q.y).toBeCloseTo(0.36515, 2)
+    expect(q.z).toBeCloseTo(0.18257, 2)
+    expect(q.w).toBeCloseTo(0.54772, 2)
+})
