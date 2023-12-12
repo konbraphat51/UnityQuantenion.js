@@ -198,3 +198,17 @@ test("RotateTowards; unlimited", () => {
     expect(q.z).toBeCloseTo(0.18257, 2)
     expect(q.w).toBeCloseTo(0.54772, 2)
 })
+
+test("Slerp", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(4, 2, 1, 3).normalized
+
+    //cover SlerpUnclamped too
+
+    const q = Quaternion.Slerp(q0, q1, 0.5)
+
+    expect(q.x).toBeCloseTo(0.48564, 2)
+    expect(q.y).toBeCloseTo(0.38851, 2)
+    expect(q.z).toBeCloseTo(0.38851, 2)
+    expect(q.w).toBeCloseTo(0.67990, 2)
+})
