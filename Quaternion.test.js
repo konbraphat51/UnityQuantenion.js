@@ -24,13 +24,20 @@ test("eulerAngles()", () => {
     expect(e[2]).toBeCloseTo(70.35, 2)
 })
 
-test("normalization", () => {
-    const q = new Quaternion(1, 2, 3, 4)
-    const n = q.normalized
-    expect(n.x).toBeCloseTo(0.18257, 3)
-    expect(n.y).toBeCloseTo(0.36515, 3)
-    expect(n.z).toBeCloseTo(0.54772, 3)
-    expect(n.w).toBeCloseTo(0.73030, 3)
+test("Normalize()", () => {
+    const q = Quaternion.Normalize(new Quaternion(1, 2, 3, 4))
+    expect(q.x).toBeCloseTo(0.18257, 3)
+    expect(q.y).toBeCloseTo(0.36515, 3)
+    expect(q.z).toBeCloseTo(0.54772, 3)
+    expect(q.w).toBeCloseTo(0.73030, 3)
+})
+
+test(".normalized", () => {
+    const q = (new Quaternion(1, 2, 3, 4)).normalized
+    expect(q.x).toBeCloseTo(0.18257, 3)
+    expect(q.y).toBeCloseTo(0.36515, 3)
+    expect(q.z).toBeCloseTo(0.54772, 3)
+    expect(q.w).toBeCloseTo(0.73030, 3)
 })
 
 test("AngleAxis", () => {
