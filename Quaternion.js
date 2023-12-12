@@ -367,6 +367,7 @@ class Quaternion {
      * @param {Quaternion} from Quaternion starts from
      * @param {Quaternion} to Quaternion ends at
      * @param {number} maxDegreesDelta Maximum number of degrees to rotate allowed
+     * @returns {Quaternion} Rotation between 2 quaternions
      */
     static RotateTowards(from, to, maxDegreesDelta = 10000) {
         //normalize
@@ -384,6 +385,62 @@ class Quaternion {
 
         //from -> target
         return Quaternion.Multiply(Quaternion.Inverse(from), target)
+    }
+
+    /**
+     * @description Spherically linear interpolates between unit quaternions a and b by a ratio of t.
+     * @see https://docs.unity3d.com/ja/2023.2/ScriptReference/Quaternion.Slerp.html
+     * @param {Quaternion} a Start unit quaternion value, returned when t = 0.
+     * @param {Quaternion} b End unit quaternion value, returned when t = 1.
+     * @param {number} t Interpolation ratio. Value is clamped to the range [0, 1].
+     * @returns {Quaternion} Interpolated quaternion
+     */
+    static Slerp(a, b, t) {
+        //clamp
+        if (t < 0) t = 0
+        if (t > 1) t = 1
+
+        return Quaternion.SlerpUnclamped(a, b, t)
+    }
+
+    /**
+     * @description Spherically linear interpolates between a and b by t. The parameter t is not clamped.
+     * @param {Quatenion} a Start unit quaternion value. 
+     * @param {Quaternion} b End unit quaternion value. 
+     * @param {number} t Interpolation ratio.
+     * @returns {Quaternion} Interpolated quaternion 
+     */
+    static SlerpUnclamped(a, b, t) {
+        //normalize
+        a = a.normalized
+        b = b.normalized
+
+        //rotate right vector
+        let right = [1, 0, 0]
+        let a_r = a.RotateVector(right)
+        let b_r = b.RotateVector(right)
+
+        //normalize vector
+        const norm_a_r = Math.sqrt(a_r[0] * a_r[0] + a_r[1] * a_r[1] + a_r[2] * a_r[2])
+        a_r = [a_r[0] / norm_a_r, a_r[1] / norm_a_r, a_r[2] / norm_a_r]
+        const norm_b_r = Math.sqrt(b_r[0] * b_r[0] + b_r[1] * b_r[1] + b_r[2] * b_r[2])
+        b_r = [b_r[0] / norm_b_r, b_r[1] / norm_b_r, b_r[2] / norm_b_r]
+
+        //get lerped vector
+        let lerped_vec = [
+            a_r[0] * (1 - t) + b_r[0] * t,
+            a_r[1] * (1 - t) + b_r[1] * t,
+            a_r[2] * (1 - t) + b_r[2] * t
+        ]
+
+        //normalize
+        const norm_lerped_vec = Math.sqrt(lerped_vec[0] * lerped_vec[0] + lerped_vec[1] * lerped_vec[1] + lerped_vec[2] * lerped_vec[2])
+        lerped_vec = [lerped_vec[0] / norm_lerped_vec, lerped_vec[1] / norm_lerped_vec, lerped_vec[2] / norm_lerped_vec]
+
+        //transition
+        let transition = Quaternion.FromToRotation(a_r, lerped_vec)
+
+        return Quaternion.Multiply(transition, a)
     }
 
     get #norm() {
