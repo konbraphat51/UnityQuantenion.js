@@ -175,6 +175,18 @@ test("Lerp", () => {
     expect(q.w).toBeCloseTo(0.65, 1)
 })
 
+test("Lerp t=0", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Lerp(q0, q1, 0)
+
+    expect(q.x).toBeCloseTo(q0.x, 2)
+    expect(q.y).toBeCloseTo(q0.y, 2)
+    expect(q.z).toBeCloseTo(q0.z, 2)
+    expect(q.w).toBeCloseTo(q0.w, 2)
+})
+
 test("RotateTowards; limitted", () => {
     const q0 = new Quaternion(1, 2, 3, 4).normalized
     const q1 = new Quaternion(4, 2, 1, 3).normalized
