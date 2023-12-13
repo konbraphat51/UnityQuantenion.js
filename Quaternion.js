@@ -467,3 +467,6 @@ class Quaternion {
         return [x, y, z]
     }
 }
+
+if (typeof module !== "undefined")
+    module.exports = Quaternion
