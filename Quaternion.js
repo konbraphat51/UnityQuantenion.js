@@ -163,18 +163,29 @@ class Quaternion {
 	/**
 	 * @description Returns product of two quaternions.
 	 * Meaning that the rotation of q0 is applied first, then q1.
-	 * @param {Quaternion} q0 Quaternion to be applied first
-	 * @param {Quaternion} q1 Quaternion to be applied second
+	 * @param {Quaternion} quaternions Quaternion to be applied in order
 	 * @returns
 	 */
-	static Multiply(q0, q1) {
-		//based on https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
-		return new Quaternion(
-			q0.x * q1.w + q0.w * q1.x - q0.z * q1.y + q0.y * q1.z,
-			q0.y * q1.w + q0.z * q1.x + q0.w * q1.y - q0.x * q1.z,
-			q0.z * q1.w - q0.y * q1.x + q0.x * q1.y + q0.w * q1.z,
-			q0.w * q1.w - q0.x * q1.x - q0.y * q1.y - q0.z * q1.z,
-		)
+	static Multiply(...quaternions) {
+		if (quaternions.length == 0) return Quaternion.identity
+		if (quaternions.length == 1) return quaternions[0]
+
+		let result = quaternions[0]
+
+		for (let cnt = 1; cnt < quaternions.length; cnt++) {
+			//based on https://www.mesw.co.jp/business/report/pdf/mss_18_07.pdf
+			let q0 = result
+			let q1 = quaternions[cnt]
+
+			let x = q0.x * q1.w + q0.w * q1.x - q0.z * q1.y + q0.y * q1.z
+			let y = q0.y * q1.w + q0.z * q1.x + q0.w * q1.y - q0.x * q1.z
+			let z = q0.z * q1.w - q0.y * q1.x + q0.x * q1.y + q0.w * q1.z
+			let w = q0.w * q1.w - q0.x * q1.x - q0.y * q1.y - q0.z * q1.z
+
+			result = new Quaternion(x, y, z, w)
+		}
+
+		return result
 	}
 
 	/**
