@@ -115,6 +115,22 @@ test("Multiply 3", () => {
 	expect(r0.w).toBeCloseTo(r1.w, 2)
 })
 
+test("Multiply 0", () => {
+	const q = Quaternion.Multiply()
+	expect(q.x).toBeCloseTo(0)
+	expect(q.y).toBeCloseTo(0)
+	expect(q.z).toBeCloseTo(0)
+	expect(q.w).toBeCloseTo(1)
+})
+
+test("Multiply 1", () => {
+	const q = Quaternion.Multiply(new Quaternion(1, 2, 3, 4))
+	expect(q.x).toBeCloseTo(1)
+	expect(q.y).toBeCloseTo(2)
+	expect(q.z).toBeCloseTo(3)
+	expect(q.w).toBeCloseTo(4)
+})
+
 test("RotateVector", () => {
 	const q = new Quaternion(1, 2, 3, 4).normalized
 
