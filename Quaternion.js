@@ -414,7 +414,7 @@ class Quaternion {
         a = a.normalized
         b = b.normalized
 
-        t = Math.cos(t * Math.PI) / 2 + 0.5
+        t = -Math.cos(t * Math.PI) / 2 + 0.5
 
         return Quaternion.LerpUnclamped(a, b, t)
     }
