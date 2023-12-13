@@ -236,3 +236,27 @@ test("Slerp", () => {
     expect(q.z).toBeCloseTo(0.38851, 2)
     expect(q.w).toBeCloseTo(0.67990, 2)
 })
+
+test("Slerp t=0", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Slerp(q0, q1, -0.1)
+
+    expect(q.x).toBeCloseTo(q0.x, 2)
+    expect(q.y).toBeCloseTo(q0.y, 2)
+    expect(q.z).toBeCloseTo(q0.z, 2)
+    expect(q.w).toBeCloseTo(q0.w, 2)
+})
+
+test("Slerp t=1", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Slerp(q0, q1, 1.1)
+
+    expect(q.x).toBeCloseTo(q1.x, 2)
+    expect(q.y).toBeCloseTo(q1.y, 2)
+    expect(q.z).toBeCloseTo(q1.z, 2)
+    expect(q.w).toBeCloseTo(q1.w, 2)
+})
