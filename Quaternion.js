@@ -374,17 +374,17 @@ class Quaternion {
         from = from.normalized
         to = to.normalized
 
-        // get destination to go to
+        // get rotating angle
         let angle = Quaternion.Angle(from, to)
+        if (angle > maxDegreesDelta) {
+            angle = maxDegreesDelta
+        }
 
-        let ratio;
-        if (angle > maxDegreesDelta) ratio = maxDegreesDelta / angle
-        else ratio = 1
-
-        let target = Quaternion.Lerp(from, to, ratio)
+        //full rotation
+        let rotation = Quaternion.Multiply(to, Quaternion.Inverse(from))
 
         //from -> target
-        return Quaternion.Multiply(Quaternion.Inverse(from), target)
+        return rotation
     }
 
     /**
