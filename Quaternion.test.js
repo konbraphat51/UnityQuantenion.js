@@ -24,13 +24,20 @@ test("eulerAngles()", () => {
     expect(e[2]).toBeCloseTo(70.35, 2)
 })
 
-test("normalization", () => {
-    const q = new Quaternion(1, 2, 3, 4)
-    const n = q.normalized
-    expect(n.x).toBeCloseTo(0.18257, 3)
-    expect(n.y).toBeCloseTo(0.36515, 3)
-    expect(n.z).toBeCloseTo(0.54772, 3)
-    expect(n.w).toBeCloseTo(0.73030, 3)
+test("Normalize()", () => {
+    const q = Quaternion.Normalize(new Quaternion(1, 2, 3, 4))
+    expect(q.x).toBeCloseTo(0.18257, 3)
+    expect(q.y).toBeCloseTo(0.36515, 3)
+    expect(q.z).toBeCloseTo(0.54772, 3)
+    expect(q.w).toBeCloseTo(0.73030, 3)
+})
+
+test(".normalized", () => {
+    const q = (new Quaternion(1, 2, 3, 4)).normalized
+    expect(q.x).toBeCloseTo(0.18257, 3)
+    expect(q.y).toBeCloseTo(0.36515, 3)
+    expect(q.z).toBeCloseTo(0.54772, 3)
+    expect(q.w).toBeCloseTo(0.73030, 3)
 })
 
 test("AngleAxis", () => {
@@ -166,4 +173,90 @@ test("Lerp", () => {
     expect(q.y).toBeCloseTo(0.43, 1)
     expect(q.z).toBeCloseTo(0.54, 1)
     expect(q.w).toBeCloseTo(0.65, 1)
+})
+
+test("Lerp t=0", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Lerp(q0, q1, -0.1)
+
+    expect(q.x).toBeCloseTo(q0.x, 2)
+    expect(q.y).toBeCloseTo(q0.y, 2)
+    expect(q.z).toBeCloseTo(q0.z, 2)
+    expect(q.w).toBeCloseTo(q0.w, 2)
+})
+
+test("Lerp t=1", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Lerp(q0, q1, 1.1)
+
+    expect(q.x).toBeCloseTo(q1.x, 2)
+    expect(q.y).toBeCloseTo(q1.y, 2)
+    expect(q.z).toBeCloseTo(q1.z, 2)
+    expect(q.w).toBeCloseTo(q1.w, 2)
+})
+
+test("RotateTowards; limitted", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(4, 2, 1, 3).normalized
+
+    const q = Quaternion.RotateTowards(q0, q1, 30)
+
+    expect(q.x).toBeCloseTo(0.41432, 2)
+    expect(q.y).toBeCloseTo(0.38705, 2)
+    expect(q.z).toBeCloseTo(0.43338, 2)
+    expect(q.w).toBeCloseTo(0.70051, 2)
+})
+
+test("RotateTowards; unlimited", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(4, 2, 1, 3).normalized
+
+    const q = Quaternion.RotateTowards(q0, q1)
+
+    expect(q.x).toBeCloseTo(0.73030, 2)
+    expect(q.y).toBeCloseTo(0.36515, 2)
+    expect(q.z).toBeCloseTo(0.18257, 2)
+    expect(q.w).toBeCloseTo(0.54772, 2)
+})
+
+test("Slerp", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(4, 2, 1, 3).normalized
+
+    //cover SlerpUnclamped too
+
+    const q = Quaternion.Slerp(q0, q1, 0.5)
+
+    expect(q.x).toBeCloseTo(0.48564, 2)
+    expect(q.y).toBeCloseTo(0.38851, 2)
+    expect(q.z).toBeCloseTo(0.38851, 2)
+    expect(q.w).toBeCloseTo(0.67990, 2)
+})
+
+test("Slerp t=0", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Slerp(q0, q1, -0.1)
+
+    expect(q.x).toBeCloseTo(q0.x, 2)
+    expect(q.y).toBeCloseTo(q0.y, 2)
+    expect(q.z).toBeCloseTo(q0.z, 2)
+    expect(q.w).toBeCloseTo(q0.w, 2)
+})
+
+test("Slerp t=1", () => {
+    const q0 = new Quaternion(1, 2, 3, 4).normalized
+    const q1 = new Quaternion(3, 3, 4, 2).normalized
+
+    const q = Quaternion.Slerp(q0, q1, 1.1)
+
+    expect(q.x).toBeCloseTo(q1.x, 2)
+    expect(q.y).toBeCloseTo(q1.y, 2)
+    expect(q.z).toBeCloseTo(q1.z, 2)
+    expect(q.w).toBeCloseTo(q1.w, 2)
 })

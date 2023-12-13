@@ -353,6 +353,72 @@ class Quaternion {
         return Quaternion.Multiply(secondRotation, firstRotation)
     }
 
+    /**
+     * @description Returns a normalized quaternion
+     * @param {Quaternion} q Quaternion to be normalized 
+     * @returns Normalized quaternion
+     */
+    static Normalize(q) {
+        return q.normalized
+    }
+
+    /**
+     * @description Get a rotation between 2 quaternions
+     * @param {Quaternion} from Quaternion starts from
+     * @param {Quaternion} to Quaternion ends at
+     * @param {number} maxDegreesDelta Maximum number of degrees to rotate allowed
+     * @returns {Quaternion} Rotation between 2 quaternions
+     */
+    static RotateTowards(from, to, maxDegreesDelta = 10000) {
+        //normalize
+        from = from.normalized
+        to = to.normalized
+
+        // get destination to go to
+        let angle = Quaternion.Angle(from, to)
+
+        let ratio;
+        if (angle > maxDegreesDelta) ratio = maxDegreesDelta / angle
+        else ratio = 1
+
+        let target = Quaternion.Lerp(from, to, ratio)
+
+        //from -> target
+        return target
+    }
+
+    /**
+     * @description Spherically linear interpolates between unit quaternions a and b by a ratio of t.
+     * @see https://docs.unity3d.com/ja/2023.2/ScriptReference/Quaternion.Slerp.html
+     * @param {Quaternion} a Start unit quaternion value, returned when t = 0.
+     * @param {Quaternion} b End unit quaternion value, returned when t = 1.
+     * @param {number} t Interpolation ratio. Value is clamped to the range [0, 1].
+     * @returns {Quaternion} Interpolated quaternion
+     */
+    static Slerp(a, b, t) {
+        //clamp
+        if (t < 0) t = 0
+        if (t > 1) t = 1
+
+        return Quaternion.SlerpUnclamped(a, b, t)
+    }
+
+    /**
+     * @description Spherically linear interpolates between a and b by t. The parameter t is not clamped.
+     * @param {Quatenion} a Start unit quaternion value. 
+     * @param {Quaternion} b End unit quaternion value. 
+     * @param {number} t Interpolation ratio.
+     * @returns {Quaternion} Interpolated quaternion 
+     */
+    static SlerpUnclamped(a, b, t) {
+        a = a.normalized
+        b = b.normalized
+
+        t = -Math.cos(t * Math.PI) / 2 + 0.5
+
+        return Quaternion.LerpUnclamped(a, b, t)
+    }
+
     get #norm() {
         return Math.sqrt(this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w)
     }
@@ -378,4 +444,5 @@ class Quaternion {
     }
 }
 
-module.exports = Quaternion
+if (typeof module !== "undefined")
+    module.exports = Quaternion
