@@ -411,55 +411,12 @@ class Quaternion {
      * @returns {Quaternion} Interpolated quaternion 
      */
     static SlerpUnclamped(a, b, t) {
-        //normalize
         a = a.normalized
         b = b.normalized
 
-        //rotate right vector
-        let right = [1, 0, 0]
-        let a_r = a.RotateVector(right)
-        let b_r = b.RotateVector(right)
+        t = Math.cos(t * Math.PI) / 2 + 0.5
 
-        //rotate up vector
-        let up = [0, 1, 0]
-        let a_u = a.RotateVector(up)
-        let b_u = b.RotateVector(up)
-
-        //normalize vector
-        const norm_a_r = Math.sqrt(a_r[0] * a_r[0] + a_r[1] * a_r[1] + a_r[2] * a_r[2])
-        a_r = [a_r[0] / norm_a_r, a_r[1] / norm_a_r, a_r[2] / norm_a_r]
-        const norm_b_r = Math.sqrt(b_r[0] * b_r[0] + b_r[1] * b_r[1] + b_r[2] * b_r[2])
-        b_r = [b_r[0] / norm_b_r, b_r[1] / norm_b_r, b_r[2] / norm_b_r]
-        const norm_a_u = Math.sqrt(a_u[0] * a_u[0] + a_u[1] * a_u[1] + a_u[2] * a_u[2])
-        a_u = [a_u[0] / norm_a_u, a_u[1] / norm_a_u, a_u[2] / norm_a_u]
-        const norm_b_u = Math.sqrt(b_u[0] * b_u[0] + b_u[1] * b_u[1] + b_u[2] * b_u[2])
-        b_u = [b_u[0] / norm_b_u, b_u[1] / norm_b_u, b_u[2] / norm_b_u]
-
-        //get lerped vector
-        let lerped_right = [
-            a_r[0] * (1 - t) + b_r[0] * t,
-            a_r[1] * (1 - t) + b_r[1] * t,
-            a_r[2] * (1 - t) + b_r[2] * t
-        ]
-
-        let lerped_up = [
-            a_u[0] * (1 - t) + b_u[0] * t,
-            a_u[1] * (1 - t) + b_u[1] * t,
-            a_u[2] * (1 - t) + b_u[2] * t
-        ]
-
-        //normalize
-        const norm_lerped_right = Math.sqrt(lerped_right[0] * lerped_right[0] + lerped_right[1] * lerped_right[1] + lerped_right[2] * lerped_right[2])
-        lerped_right = [lerped_right[0] / norm_lerped_right, lerped_right[1] / norm_lerped_right, lerped_right[2] / norm_lerped_right]
-        const norm_lerped_up = Math.sqrt(lerped_up[0] * lerped_up[0] + lerped_up[1] * lerped_up[1] + lerped_up[2] * lerped_up[2])
-        lerped_up = [lerped_up[0] / norm_lerped_up, lerped_up[1] / norm_lerped_up, lerped_up[2] / norm_lerped_up]
-
-        //transition x -> y
-        let firstRotation = Quaternion.FromToRotation(right, lerped_right)
-        let uRotatedFirst = firstRotation.RotateVector(up)
-        let secondRotation = Quaternion.FromToRotation(uRotatedFirst, lerped_up)
-
-        return Quaternion.Multiply(secondRotation, firstRotation)
+        return Quaternion.LerpUnclamped(a, b, t)
     }
 
     get #norm() {
