@@ -381,7 +381,7 @@ class Quaternion {
         if (angle > maxDegreesDelta) ratio = maxDegreesDelta / angle
         else ratio = 1
 
-        let target = Quaternion.Slerp(from, to, ratio)
+        let target = Quaternion.Lerp(from, to, ratio)
 
         //from -> target
         return Quaternion.Multiply(Quaternion.Inverse(from), target)
